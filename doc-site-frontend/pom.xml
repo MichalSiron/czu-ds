@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <artifactId>doc-site-parent</artifactId>
+        <groupId>czu.doc.site</groupId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>doc-site-frontend</artifactId>
+    <packaging>jar</packaging>
+
+    <name>DS - Frontend</name>
+    <description>DS application module containing frontend JS app.</description>
+
+    <properties>
+        <version.frontend-maven-plugin>1.6</version.frontend-maven-plugin>
+        <version.frontend-maven-plugin.node>v10.14.1</version.frontend-maven-plugin.node>
+        <version.frontend-maven-plugin.npm>6.4.1</version.frontend-maven-plugin.npm>
+        <version.frontend-maven-plugin.yarn>v1.12.3</version.frontend-maven-plugin.yarn>
+    </properties>
+
+    <build>
+
+        <resources>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>build/**</include>
+                </includes>
+            </resource>
+
+        </resources>
+
+    </build>
+
+</project>
