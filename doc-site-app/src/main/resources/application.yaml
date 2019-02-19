@@ -1,0 +1,11 @@
+spring:
+  jpa:
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  data-source:
+    url: jdbc:postgresql://localhost:5432/doc_site
+    username: sironm
+    password:
+    driver-class-name: org.postgresql.Driver
