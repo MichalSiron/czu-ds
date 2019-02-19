@@ -23,3 +23,9 @@
 /nbdist/
 /.nb-gradle/
 /build/
+
+### Maven targets ###
+/doc-site-app/target/
+/doc-site-backend/target/
+/doc-site-frontend/target/
+/doc-site-persistence/target/
