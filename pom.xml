@@ -40,20 +40,44 @@
 		<module>doc-site-persistence</module>
 	</modules>
 
+	<!--<dependencies>-->
+		<!--<dependency>-->
+			<!--<groupId>org.liquibase</groupId>-->
+			<!--<artifactId>liquibase-core</artifactId>-->
+		<!--</dependency>-->
+
+		<!--<dependency>-->
+			<!--<groupId>org.springframework.boot</groupId>-->
+			<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+		<!--</dependency>-->
+	<!--</dependencies>-->
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>${version.postgresql}</version>
-				<scope>runtime</scope>
+				<!--<scope>runtime</scope>-->
 			</dependency>
 
+			<!--<dependency>-->
+				<!--<groupId>org.springframework.boot</groupId>-->
+				<!--<artifactId>spring-boot-starter-jdbc</artifactId>-->
+			<!--</dependency>-->
+
+
 			<dependency>
-				<groupId>com.h2database</groupId>
-				<artifactId>h2</artifactId>
-				<scope>runtime</scope>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-core</artifactId>
+				<version>3.6.3</version>
 			</dependency>
+
+			<!--<dependency>-->
+				<!--<groupId>com.h2database</groupId>-->
+				<!--<artifactId>h2</artifactId>-->
+				<!--<scope>runtime</scope>-->
+			<!--</dependency>-->
 		</dependencies>
 	</dependencyManagement>
 

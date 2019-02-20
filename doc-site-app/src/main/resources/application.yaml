@@ -1,11 +1,19 @@
 spring:
   jpa:
     show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
   h2:
     console:
-      enabled: true
+      enabled: false
   data-source:
     url: jdbc:postgresql://localhost:5432/doc_site
     username: sironm
     password:
     driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db.changelog/db.changelog-master.yaml
+    enabled: true

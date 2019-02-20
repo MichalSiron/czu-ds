@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,7 +31,7 @@ public class UserController {
 
     @GetMapping("/{id}/detail")
     ResponseEntity<User> userDetail(@PathVariable Long id) {
-        System.out.println("ID: "+id);
+        Optional<User> user = userService.getUser(id);
         return userService.getUser(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
@@ -40,7 +39,5 @@ public class UserController {
     List<User> getDetails() {
         return userService.getDetails();
     }
-
-
 
 }
