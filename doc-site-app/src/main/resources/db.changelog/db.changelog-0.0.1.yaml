@@ -1,0 +1,172 @@
+databaseChangeLog:
+- changeSet:
+    id: 20190212204121
+    author: sironm
+    description: Database initiation
+    changes:
+    - createTable:
+        tableName: users
+        columns:
+        - column:
+            name: user_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: username
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: password
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: address
+        columns:
+        - column:
+            name: address_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: street
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: city
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: psc
+            type: int
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: person
+        columns:
+        - column:
+            name: person_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: name
+        columns:
+        - column:
+            name: name_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: first_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: last_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+    - addForeignKeyConstraint:
+        baseColumnNames: address_id
+        baseTableName: person
+        constraintName: fk_person_address
+#        deferrable: true
+#        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: address_id
+        referencedTableName: address
+    - addForeignKeyConstraint:
+        baseColumnNames: name_id
+        baseTableName: person
+        constraintName: fk_name_person
+#        deferrable: true
+#        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: name_id
+        referencedTableName: name
+    - addForeignKeyConstraint:
+        baseColumnNames: user_id
+        baseTableName: users
+        constraintName: fk_user_person
+#        deferrable: true
+#        initiallyDeferred: true
+        onDelete: CASCADE
+        onUpdate: RESTRICT
+        referencedColumnNames: person_id
+        referencedTableName: person
+- changeSet:
+    id: 20190220214121
+    author: sironm
+    changes:
+    - insert:
+        tableName: name
+        columns:
+        - column:
+            name: first_name
+            value: Michal
+        - column:
+            name: last_name
+            value: Siron
+    - insert:
+        tableName: address
+        columns:
+        - column:
+            name: street
+            value: Karla Stecha
+        - column:
+            name: city
+            value: Ceske Budejovice
+        - column:
+            name: psc
+            value: 27005
+    - insert:
+        tableName: person
+        columns:
+        - column:
+            name: name_id
+            value: 1
+        - column:
+            name: address_id
+            value: 1
+    - insert:
+        tableName: users
+        columns:
+        - column:
+            name: username
+            value: sironm
+        - column:
+            name: password
+            value: 123
+        - column:
+            name: person_id
+            value: 1
