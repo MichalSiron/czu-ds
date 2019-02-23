@@ -14,13 +14,15 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     @Autowired
-    UserServiceImpl(UserRepository repository) {
+    public UserServiceImpl(UserRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Optional<User> getUser(Long id) {
-        return this.repository.findById(id);
+    public Optional<User> findUser(Long id) {
+        Optional<User> byId = this.repository.findById(id);
+
+        return byId;
     }
 
     @Override

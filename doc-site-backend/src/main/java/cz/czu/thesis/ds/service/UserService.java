@@ -12,7 +12,7 @@ public interface UserService {
      * @param id a not-null user id
      * @return Optional wrapping user information, or empty if information was not found
      */
-    Optional<User> getUser(Long id);
+    Optional<User> findUser(Long id);
 
     List<User> getDetails();
 

@@ -29,6 +29,19 @@ databaseChangeLog:
             type: bigint
             constraints:
               nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: last_active
+            type: timestamp without time zone
     - createTable:
         tableName: address
         columns:
@@ -54,6 +67,16 @@ databaseChangeLog:
             type: int
             constraints:
               nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
     - createTable:
         tableName: person
         columns:
@@ -72,6 +95,16 @@ databaseChangeLog:
         - column:
             name: address_id
             type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
             constraints:
               nullable: false
     - createTable:
@@ -94,6 +127,16 @@ databaseChangeLog:
             type: varchar(255)
             constraints:
               nullable: false
+        - column:
+              name: created_at
+              type: timestamp without time zone
+              constraints:
+                nullable: false
+        - column:
+              name: modified_at
+              type: timestamp without time zone
+              constraints:
+                nullable: false
     - addForeignKeyConstraint:
         baseColumnNames: address_id
         baseTableName: person
@@ -137,6 +180,12 @@ databaseChangeLog:
         - column:
             name: last_name
             value: Siron
+        - column:
+            name: created_at
+            value: now()
+        - column:
+            name: modified_at
+            value: now()
     - insert:
         tableName: address
         columns:
@@ -149,6 +198,12 @@ databaseChangeLog:
         - column:
             name: psc
             value: 27005
+        - column:
+            name: created_at
+            value: now()
+        - column:
+            name: modified_at
+            value: now()
     - insert:
         tableName: person
         columns:
@@ -158,6 +213,12 @@ databaseChangeLog:
         - column:
             name: address_id
             value: 1
+        - column:
+            name: created_at
+            value: now()
+        - column:
+            name: modified_at
+            value: now()
     - insert:
         tableName: users
         columns:
@@ -170,3 +231,9 @@ databaseChangeLog:
         - column:
             name: person_id
             value: 1
+        - column:
+            name: created_at
+            value: now()
+        - column:
+            name: modified_at
+            value: now()

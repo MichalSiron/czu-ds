@@ -10,8 +10,8 @@ spring:
     console:
       enabled: false
   data-source:
-    url: jdbc:postgresql://localhost:5433/michalsiron
-    username: michalsiron
+    url: jdbc:postgresql://localhost:5432/doc_site
+    username: sironm
     password:
     driver-class-name: org.postgresql.Driver
   liquibase:

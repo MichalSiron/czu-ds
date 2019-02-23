@@ -1,20 +1,26 @@
 package cz.czu.thesis.ds.model;
 
 import cz.czu.thesis.ds.base.BaseEntity;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
 public class User extends BaseEntity<Long> {
 
     @Id
-    @Column(name = "id", nullable = false, updatable = false, length = 32)
+    @Column(name = "user_id", nullable = false, updatable = false, length = 32)
     private Long id;
+
+    @Column(name = "username", nullable = false)
+    private String username;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "person_id")
+    private Person person;
 
     @Column(name = "last_active", nullable = false, precision = 3)
     private LocalDateTime lastActive;
@@ -23,8 +29,9 @@ public class User extends BaseEntity<Long> {
         //only for framework purpose//
     }
 
-    User(Long id){
+    public User(Long id, Person person){
         this.id = id;
+        this.person = person;
         this.lastActive = LocalDateTime.now();
     }
 
@@ -43,5 +50,39 @@ public class User extends BaseEntity<Long> {
 
     public void setLastActive(LocalDateTime lastActive) {
         this.lastActive = lastActive;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", lastActive=" + lastActive +
+                '}';
     }
 }
