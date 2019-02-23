@@ -24,18 +24,14 @@
     </properties>
 
     <build>
-
         <resources>
-
             <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>build/**</include>
                 </includes>
             </resource>
-
         </resources>
-
     </build>
 
 </project>

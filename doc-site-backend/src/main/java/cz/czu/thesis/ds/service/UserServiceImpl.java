@@ -20,9 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUser(Long id) {
-        Optional<User> byId = this.repository.findById(id);
-
-        return byId;
+        return this.repository.findById(id);
     }
 
     @Override
