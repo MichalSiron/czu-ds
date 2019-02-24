@@ -5,6 +5,106 @@ databaseChangeLog:
     description: Database initiation
     changes:
     - createTable:
+        tableName: surgery_patient_list
+        columns:
+        - column:  
+    - createTable:
+        tableName: contact
+        columns:
+        - column:
+            name: contact_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: phone_number
+            type: varchar(20)
+            constraints:
+              nullable: true
+        - column:
+            name: web_link
+            type: varchar(150)
+            constrains:
+              nullable: true
+    - createTable:
+        tableName: surgery
+        columns:
+        - column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: medical_facility_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: contact_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: surgery_description
+            type: varchar(300)
+            constraints:
+              nullable: true
+    - createTable:
+        tableName: patient
+        columns:
+        - column:
+            name: patient_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        -column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: doctor
+        columns:
+        - column:
+            name: doctor_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+              name: created_at
+              type: timestamp without time zone
+              constraints:
+                  nullable: false
+        - column:
+              name: modified_at
+              type: timestamp without time zone
+              constraints:
+                  nullable: false
+    - createTable:
         tableName: users
         columns:
         - column:
@@ -27,6 +127,11 @@ databaseChangeLog:
         - column:
             name: person_id
             type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: user_type
+            type: varchar(20)
             constraints:
               nullable: false
         - column:
