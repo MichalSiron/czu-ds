@@ -4,26 +4,30 @@ import cz.czu.thesis.ds.model.Role;
 import cz.czu.thesis.ds.model.User;
 import cz.czu.thesis.ds.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 import java.util.Set;
 
 
 @RestController
-@RequestMapping(path = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
 public class UserController {
 
     private final UserService userService;
+    private RestTemplate restTemplate;
 
     @Autowired
-    UserController(UserService userService){
+    UserController(UserService userService, RestTemplate restTemplate){
         this.userService = userService;
+        this.restTemplate = restTemplate;
     }
 
 //    @GetMapping("/detail")
@@ -38,6 +42,15 @@ public class UserController {
 
         return oUser.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
+
+    @GetMapping("/book/{isbn}")
+    String lookupBookByIsbn(@PathVariable String isbn){
+        ResponseEntity<String> exchange = restTemplate.exchange("https://googleapis.com/books/v1/volumes?q=isbn:" + isbn, HttpMethod.GET, null,
+                String.class);
+
+        return exchange.getBody();
+    }
+
 
 //
 //    @GetMapping("/all")
