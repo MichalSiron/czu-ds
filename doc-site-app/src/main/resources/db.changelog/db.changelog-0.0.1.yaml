@@ -5,9 +5,116 @@ databaseChangeLog:
     description: Database initiation
     changes:
     - createTable:
+        tableName: rezervation
+        columns:
+        - column:
+            name: rezervation_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: from
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: to
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: canceled_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: approved
+            type: boolean default false
+            constraints:
+                nullable: false
+        - column:
+            name: canceled
+            type: boolean default false
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: medical_facility
+        columns:
+        - column:
+            name: medical_facility_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: contact_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
         tableName: surgery_patient_list
         columns:
-        - column:  
+        - column:
+            name: surgery_patient_list_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: patient_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
     - createTable:
         tableName: contact
         columns:
@@ -27,6 +134,16 @@ databaseChangeLog:
             type: varchar(150)
             constrains:
               nullable: true
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
     - createTable:
         tableName: surgery
         columns:
@@ -56,6 +173,16 @@ databaseChangeLog:
             type: varchar(300)
             constraints:
               nullable: true
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
     - createTable:
         tableName: patient
         columns:
@@ -70,9 +197,19 @@ databaseChangeLog:
             type: bigint
             constraints:
               nullable: false
-        -column:
+        - column:
             name: surgery_id
             type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
             constraints:
               nullable: false
     - createTable:
@@ -115,6 +252,11 @@ databaseChangeLog:
               primaryKey: true
               nullable: false
         - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
             name: username
             type: varchar(255)
             constraints:
@@ -125,8 +267,8 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: person_id
-            type: bigint
+            name: role
+            type: varchar(20)
             constraints:
               nullable: false
         - column:
@@ -272,73 +414,3 @@ databaseChangeLog:
         onUpdate: RESTRICT
         referencedColumnNames: person_id
         referencedTableName: person
-- changeSet:
-    id: 20190220214121
-    author: sironm
-    changes:
-    - insert:
-        tableName: name
-        columns:
-        - column:
-            name: first_name
-            value: Michal
-        - column:
-            name: last_name
-            value: Siron
-        - column:
-            name: created_at
-            value: now()
-        - column:
-            name: modified_at
-            value: now()
-    - insert:
-        tableName: address
-        columns:
-        - column:
-            name: street
-            value: Karla Stecha
-        - column:
-            name: city
-            value: Ceske Budejovice
-        - column:
-            name: psc
-            value: 27005
-        - column:
-            name: created_at
-            value: now()
-        - column:
-            name: modified_at
-            value: now()
-    - insert:
-        tableName: person
-        columns:
-        - column:
-            name: name_id
-            value: 1
-        - column:
-            name: address_id
-            value: 1
-        - column:
-            name: created_at
-            value: now()
-        - column:
-            name: modified_at
-            value: now()
-    - insert:
-        tableName: users
-        columns:
-        - column:
-            name: username
-            value: sironm
-        - column:
-            name: password
-            value: 123
-        - column:
-            name: person_id
-            value: 1
-        - column:
-            name: created_at
-            value: now()
-        - column:
-            name: modified_at
-            value: now()

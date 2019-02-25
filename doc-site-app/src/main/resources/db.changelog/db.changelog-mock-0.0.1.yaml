@@ -1,0 +1,71 @@
+databaseChangeLog:
+- changeSet:
+    id: 20190220214121
+    author: sironm
+    changes:
+      - insert:
+          tableName: name
+          columns:
+            - column:
+                name: first_name
+                value: Michal
+            - column:
+                name: last_name
+                value: Siron
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: address
+          columns:
+            - column:
+                name: street
+                value: Karla Stecha
+            - column:
+                name: city
+                value: Ceske Budejovice
+            - column:
+                name: psc
+                value: 27005
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: person
+          columns:
+            - column:
+                name: name_id
+                value: 1
+            - column:
+                name: address_id
+                value: 1
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: username
+                value: sironm
+            - column:
+                name: password
+                value: 123
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
