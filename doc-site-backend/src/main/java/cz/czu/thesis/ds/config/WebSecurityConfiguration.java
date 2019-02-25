@@ -14,11 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 @Configuration
 @EnableWebSecurity
 @Profile("!https")
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    private static final String[] PUBLIC_STATIC_RESOURCES = {"/", "/static/**", "/index.html"};
+    private static final String[] PUBLIC_API_RESOURCES = {"/api/"};
+    private static final RequestMatcher PRIVATE_API_MATCHER = new AntPathRequestMatcher("/api/**");
 
     @Autowired
     private UserService userDetailsService;
