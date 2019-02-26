@@ -2,10 +2,14 @@ databaseChangeLog:
 - changeSet:
     id: 20190220214121
     author: sironm
+
     changes:
       - insert:
           tableName: name
           columns:
+            - column:
+                name: name_id
+                value: 1
             - column:
                 name: first_name
                 value: Michal
@@ -21,6 +25,9 @@ databaseChangeLog:
       - insert:
           tableName: address
           columns:
+            - column:
+                name: address_id
+                value: 1
             - column:
                 name: street
                 value: Karla Stecha
@@ -40,6 +47,9 @@ databaseChangeLog:
           tableName: person
           columns:
             - column:
+                name: person_id
+                value: 1
+            - column:
                 name: name_id
                 value: 1
             - column:
@@ -52,8 +62,59 @@ databaseChangeLog:
                 name: modified_at
                 value: now()
       - insert:
+          tableName: role
+          columns:
+            - column:
+                name: role_id
+                value: 1
+            - column:
+                name: value
+                value: USER
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: role
+          columns:
+            - column:
+                name: role_id
+                value: 2
+            - column:
+                name: value
+                value: ADMIN
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: role
+          columns:
+            - column:
+                name: role_id
+                value: 3
+            - column:
+                name: value
+                value: MEDIC
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
           tableName: users
           columns:
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: person_id
+                value: 1
             - column:
                 name: username
                 value: sironm
@@ -61,11 +122,29 @@ databaseChangeLog:
                 name: password
                 value: 123
             - column:
-                name: person_id
-                value: 1
+                name: role_id
+                value: 2
             - column:
                 name: created_at
                 value: now()
             - column:
                 name: modified_at
                 value: now()
+      - insert:
+          tableName: user_role
+          columns:
+            - column:
+                name: role_id
+                value: 1
+            - column:
+                name: user_id
+                value: 1
+      - insert:
+          tableName: user_role
+          columns:
+            - column:
+                name: role_id
+                value: 2
+            - column:
+                name: user_id
+                value: 1

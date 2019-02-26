@@ -5,6 +5,43 @@ databaseChangeLog:
     description: Database initiation
     changes:
     - createTable:
+        tableName: user_role
+        columns:
+        - column:
+            name: role_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: user_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: role
+        columns:
+        - column:
+            name: role_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              autoIncrement: true
+        - column:
+            name: value
+            type: varchar(15)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
         tableName: rezervation
         columns:
         - column:
@@ -65,6 +102,7 @@ databaseChangeLog:
         - column:
             name: medical_facility_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -96,11 +134,18 @@ databaseChangeLog:
         - column:
             name: surgery_patient_list_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
         - column:
             name: patient_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: surgery_id
             type: bigint
             constraints:
               primaryKey: true
@@ -121,6 +166,7 @@ databaseChangeLog:
         - column:
             name: contact_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -132,7 +178,7 @@ databaseChangeLog:
         - column:
             name: web_link
             type: varchar(150)
-            constrains:
+            constraints:
               nullable: true
         - column:
             name: created_at
@@ -150,6 +196,7 @@ databaseChangeLog:
         - column:
             name: surgery_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -189,6 +236,7 @@ databaseChangeLog:
         - column:
             name: patient_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -218,6 +266,7 @@ databaseChangeLog:
         - column:
             name: doctor_id
             type: bigint
+            autoIncrement: true
             constraints:
               primaryKey: true
               nullable: false
@@ -232,15 +281,15 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-              name: created_at
-              type: timestamp without time zone
-              constraints:
-                  nullable: false
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
         - column:
-              name: modified_at
-              type: timestamp without time zone
-              constraints:
-                  nullable: false
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
     - createTable:
         tableName: users
         columns:
@@ -267,13 +316,8 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: role
-            type: varchar(20)
-            constraints:
-              nullable: false
-        - column:
-            name: user_type
-            type: varchar(20)
+            name: role_id
+            type: bigint default 1
             constraints:
               nullable: false
         - column:
@@ -375,42 +419,12 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-              name: created_at
-              type: timestamp without time zone
-              constraints:
-                nullable: false
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
         - column:
-              name: modified_at
-              type: timestamp without time zone
-              constraints:
-                nullable: false
-    - addForeignKeyConstraint:
-        baseColumnNames: address_id
-        baseTableName: person
-        constraintName: fk_person_address
-#        deferrable: true
-#        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: address_id
-        referencedTableName: address
-    - addForeignKeyConstraint:
-        baseColumnNames: name_id
-        baseTableName: person
-        constraintName: fk_name_person
-#        deferrable: true
-#        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: name_id
-        referencedTableName: name
-    - addForeignKeyConstraint:
-        baseColumnNames: user_id
-        baseTableName: users
-        constraintName: fk_user_person
-#        deferrable: true
-#        initiallyDeferred: true
-        onDelete: CASCADE
-        onUpdate: RESTRICT
-        referencedColumnNames: person_id
-        referencedTableName: person
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false

@@ -3,12 +3,14 @@ package cz.czu.thesis.ds.model;
 import cz.czu.thesis.ds.base.BaseEntity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
-@Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id"})})
+@Table(name = "users")
 public class User extends BaseEntity<Long> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id", nullable = false, updatable = false, length = 32)
     private Long id;
 
@@ -18,12 +20,17 @@ public class User extends BaseEntity<Long> {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "last_active", nullable = false, precision = 3)
+    private LocalDateTime lastActive;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
 
-    @Column(name = "last_active", nullable = false, precision = 3)
-    private LocalDateTime lastActive;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
 
     User(){
         //only for framework purpose//
