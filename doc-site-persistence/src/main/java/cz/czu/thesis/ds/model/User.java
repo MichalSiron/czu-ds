@@ -28,12 +28,21 @@ public class User extends BaseEntity<Long> {
     private Person person;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private Set<Role> roles;
-
 
     User(){
         //only for framework purpose//
+    }
+
+    public User(User user) {
+        this.username = user.username;
+        this.password = user.password;
+        this.lastActive = user.lastActive;
+        this.person = user.person;
+        this.roles = user.roles;
     }
 
     public User(Long id, Person person){
@@ -81,6 +90,14 @@ public class User extends BaseEntity<Long> {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

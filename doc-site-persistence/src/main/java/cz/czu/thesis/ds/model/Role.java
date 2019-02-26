@@ -10,7 +10,7 @@ public class Role extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false, updatable = false, length = 32)
+    @Column(name = "role_id", nullable = false, updatable = false, length = 32)
     private Long id;
 
     @Column(name = "value")
@@ -31,5 +31,13 @@ public class Role extends BaseEntity<Long> {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", role='" + role + '\'' +
+                '}';
     }
 }
