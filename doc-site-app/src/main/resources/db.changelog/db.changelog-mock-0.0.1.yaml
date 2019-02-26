@@ -120,10 +120,7 @@ databaseChangeLog:
                 value: sironm
             - column:
                 name: password
-                value: 123
-            - column:
-                name: role_id
-                value: 2
+                value: $2a$12$7T0skwgLgaMUSvLc3QTGDe9oj/reKzb8cmy6wHuF3JCeyJDIDKDfK
             - column:
                 name: created_at
                 value: now()

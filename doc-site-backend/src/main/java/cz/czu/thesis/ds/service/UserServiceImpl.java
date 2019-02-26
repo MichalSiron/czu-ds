@@ -3,7 +3,7 @@ package cz.czu.thesis.ds.service;
 import cz.czu.thesis.ds.UsernameNotFoundException;
 import cz.czu.thesis.ds.dao.UserRepository;
 import cz.czu.thesis.ds.model.User;
-import cz.czu.thesis.ds.security.MyUserPrincipal;
+import cz.czu.thesis.ds.security.CustomUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         Optional<User> user = repository.findByUsername(username);
         User fs = user.orElseThrow(() -> new UsernameNotFoundException(User.class, username));
 
-        return new MyUserPrincipal(fs);
+        return new CustomUserPrincipal(fs);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package cz.czu.thesis.ds.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.czu.thesis.ds.base.BaseEntity;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -18,6 +19,7 @@ public class User extends BaseEntity<Long> {
     private String username;
 
     @Column(name = "password", nullable = false)
+    @JsonIgnore
     private String password;
 
     @Column(name = "last_active", nullable = false, precision = 3)
@@ -35,14 +37,6 @@ public class User extends BaseEntity<Long> {
 
     User(){
         //only for framework purpose//
-    }
-
-    public User(User user) {
-        this.username = user.username;
-        this.password = user.password;
-        this.lastActive = user.lastActive;
-        this.person = user.person;
-        this.roles = user.roles;
     }
 
     public User(Long id, Person person){

@@ -2,23 +2,34 @@ package cz.czu.thesis.ds.security;
 
 import cz.czu.thesis.ds.model.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.security.auth.Subject;
 import java.nio.file.attribute.UserPrincipal;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class MyUserPrincipal implements UserDetails {
+public class CustomUserPrincipal implements UserDetails {
 
     private User user;
 
-    public MyUserPrincipal(User user) {
+    public CustomUserPrincipal(User user)
+    {
         this.user = user;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<SimpleGrantedAuthority> sga = user.getRoles()
+                .stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .collect(Collectors.toList());
+
+        sga.forEach(System.out::println);
+
+        return sga;
     }
 
     @Override
