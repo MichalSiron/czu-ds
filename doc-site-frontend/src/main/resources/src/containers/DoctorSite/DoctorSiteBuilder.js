@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
-import axios from '../../axios';
+import Doctors from '../../components/Model/Doctors/Doctors';
 
 class DoctorSiteBuilder extends Component {
 
@@ -9,23 +9,11 @@ class DoctorSiteBuilder extends Component {
         loadedDoctors: []
     };
 
-    componentDidMount(){
-        axios.get('/doctors')
-            .then(response => {
-                this.setState({
-                    doctors: response.data.results
-                });
-                console.log(response.data);
-            }).catch(error => {
-            console.log(error);
-        });
-    }
-
     render() {
 
         return (
             <div>
-                <Route path="/" exact component={Movies}/>
+                <Route path="/" exact component={Doctors}/>
             </div>
         );
     }
