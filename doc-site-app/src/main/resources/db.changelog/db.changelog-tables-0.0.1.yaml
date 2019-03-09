@@ -110,13 +110,11 @@ databaseChangeLog:
             name: contact_id
             type: bigint
             constraints:
-              primaryKey: true
               nullable: false
         - column:
             name: address_id
             type: bigint
             constraints:
-              primaryKey: true
               nullable: false
         - column:
             name: created_at
@@ -142,13 +140,11 @@ databaseChangeLog:
             name: patient_id
             type: bigint
             constraints:
-              primaryKey: true
               nullable: false
         - column:
             name: surgery_id
             type: bigint
             constraints:
-              primaryKey: true
               nullable: false
         - column:
             name: created_at

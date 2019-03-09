@@ -2,7 +2,6 @@ databaseChangeLog:
 - changeSet:
     id: 20190220214121
     author: sironm
-
     changes:
       - insert:
           tableName: name
@@ -37,6 +36,27 @@ databaseChangeLog:
             - column:
                 name: psc
                 value: 27005
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: address
+          columns:
+            - column:
+                name: address_id
+                value: 2
+            - column:
+                name: street
+                value: Lovosecka
+            - column:
+                name: city
+                value: Praha
+            - column:
+                name: psc
+                value: 19000
             - column:
                 name: created_at
                 value: now()
@@ -145,3 +165,81 @@ databaseChangeLog:
             - column:
                 name: user_id
                 value: 1
+      - insert:
+          tableName: contact
+          columns:
+            - column:
+                name: contact_id
+                value: 1
+            - column:
+                name: phone_number
+                value: +420111222333
+            - column:
+                name: web_link
+                value: http://localhost:8088
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: medical_facility
+          columns:
+            - column:
+                name: medical_facility_id
+                value: 1
+            - column:
+                name: contact_id
+                value: 1
+            - column:
+                name: address_id
+                value: 2
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: surgery
+          columns:
+            - column:
+                name: surgery_id
+                value: 1
+            - column:
+                name: medical_facility_id
+                value: 1
+            - column:
+                name: contact_id
+                value: 1
+            - column:
+                name: address_id
+                value: 2
+            - column:
+                name: surgery_description
+                value: Surgery for testing purpose (ex.Gynecology)
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()
+      - insert:
+          tableName: doctor
+          columns:
+            - column:
+                name: doctor_id
+                value: 1
+            - column:
+                name: surgery_id
+                value: 1
+            - column:
+                name: person_id
+                value: 1
+            - column:
+                name: created_at
+                value: now()
+            - column:
+                name: modified_at
+                value: now()

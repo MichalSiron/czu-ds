@@ -1,7 +1,7 @@
 package cz.czu.thesis.ds.service;
 
 import cz.czu.thesis.ds.UsernameNotFoundException;
-import cz.czu.thesis.ds.dao.UserRepository;
+import cz.czu.thesis.ds.repository.UserRepository;
 import cz.czu.thesis.ds.model.User;
 import cz.czu.thesis.ds.security.CustomUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +34,6 @@ public class UserServiceImpl implements UserService {
         User fs = user.orElseThrow(() -> new UsernameNotFoundException(User.class, username));
 
         return new CustomUserPrincipal(fs);
-    }
-
-    @Override
-    public List<User> getDetails() {
-        return this.repository.findAll();
     }
 
 }

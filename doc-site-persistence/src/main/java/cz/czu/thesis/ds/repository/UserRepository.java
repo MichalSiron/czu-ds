@@ -1,4 +1,4 @@
-package cz.czu.thesis.ds.dao;
+package cz.czu.thesis.ds.repository;
 
 import cz.czu.thesis.ds.base.BaseRepository;
 import cz.czu.thesis.ds.model.User;

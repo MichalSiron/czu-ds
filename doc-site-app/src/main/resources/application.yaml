@@ -1,4 +1,7 @@
 spring:
+#  data:
+#    rest:
+#      base-path: /api
   jpa:
     show-sql: true
     properties:
@@ -19,3 +22,5 @@ spring:
     enabled: true
 server:
   port: 8088
+  servlet:
+    context-path: /api
