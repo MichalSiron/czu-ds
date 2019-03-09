@@ -40,7 +40,7 @@ public class DoctorController {
         return "test";
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ResponseEntity<List<Doctor>> getDoctors(){
         System.out.println("getDoctors");
         Optional<List<Doctor>> oDoctor = doctorService.getAll();

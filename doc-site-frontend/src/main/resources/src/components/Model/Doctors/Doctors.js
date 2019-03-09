@@ -3,6 +3,7 @@ import axios from "../../../axios";
 
 import Spinner from '../../UI/Spinner/Spinner';
 import Doctor from './Doctor/Doctor';
+import classes from './Doctors.css';
 
 class Doctors extends Component {
 
@@ -15,7 +16,7 @@ class Doctors extends Component {
         axios.get('/doctors')
             .then(response => {
                 this.setState({
-                    loadedDoctors: response.data.results
+                    loadedDoctors: response.data
                 });
                 console.log(response.data);
                 this.setState({loadingError: false})
@@ -38,7 +39,7 @@ class Doctors extends Component {
         }
 
         return (
-            <div>
+            <div className={classes.Doctors}>
                 {doctors}
             </div>
         );
