@@ -17,18 +17,26 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping(path = "/doctors", produces = MediaType.APPLICATION_JSON_VALUE)
-public class DoctorController {
+@RequestMapping(path = "/public", produces = MediaType.APPLICATION_JSON_VALUE)
+public class PublicController {
 
     private final DoctorService doctorService;
-
+    private final UserService userService;
 
     @Autowired
-    DoctorController(DoctorService doctorService){
+    PublicController(DoctorService doctorService, UserService userService){
         this.doctorService = doctorService;
+        this.userService = userService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/doctors")
+    public ResponseEntity<List<Doctor>> getDoctorList(){
+        System.out.println("getDoctorList");
+        Optional<List<Doctor>> oDoctor = doctorService.getAll();
+        return oDoctor.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/doctors/{id}")
     public ResponseEntity<Doctor> getDoctor(@PathVariable Long id){
         System.out.println("getDoctor");
         Optional<Doctor> oDoctor = doctorService.findById(id);

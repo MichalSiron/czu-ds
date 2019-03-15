@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
 import Doctors from '../../components/Model/Doctors/Doctors';
 import Login from '../Login/Login';
+import Patients from '../../components/Model/Patient/Patients';
 
 class DoctorSiteBuilder extends Component {
 
@@ -12,6 +13,7 @@ class DoctorSiteBuilder extends Component {
             <div>
                 <Route path="/" exact component={Doctors}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/patients" component={Patients}/>
             </div>
         );
     }

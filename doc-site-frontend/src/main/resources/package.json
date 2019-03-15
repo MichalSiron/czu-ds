@@ -118,6 +118,7 @@
   },
   "devDependencies": {
     "axios": "^0.18.0",
+    "bcryptjs": "^2.4.3",
     "react-router-dom": "^4.3.1"
   }
 }

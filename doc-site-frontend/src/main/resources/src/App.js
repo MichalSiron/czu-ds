@@ -10,11 +10,9 @@ class App extends Component {
   render() {
     return (
         <BrowserRouter>
-          <div>
             <Layout>
               <DoctorSiteBuilder/>
             </Layout>
-          </div>
         </BrowserRouter>
     );
   }

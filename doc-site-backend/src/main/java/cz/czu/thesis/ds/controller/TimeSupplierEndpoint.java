@@ -17,7 +17,7 @@ import java.time.ZonedDateTime;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping(path = "/example", produces = MediaType.APPLICATION_JSON_VALUE)
+//@RequestMapping(path = "/public", produces = MediaType.APPLICATION_JSON_VALUE)
 public class TimeSupplierEndpoint {
 
     private RestTemplate restTemplate;
@@ -27,12 +27,12 @@ public class TimeSupplierEndpoint {
         this.restTemplate = rt;
     }
 
-    @GetMapping(path = "/time", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/public/time", produces = APPLICATION_JSON_VALUE)
     public ZonedDateTime currentTime(){
         return ZonedDateTime.now();
     }
 
-    @GetMapping(path = "/secretTime", produces = APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/private/secretTime", produces = APPLICATION_JSON_VALUE)
     public ZonedDateTime currentSecretTime(){
         return ZonedDateTime.now(ZoneId.of("UTC"));
     }

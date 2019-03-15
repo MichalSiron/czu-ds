@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUser(Long id) {
+    public Optional<User> findUserById(Long id) {
         return this.repository.findById(id);
     }
 
@@ -34,6 +34,11 @@ public class UserServiceImpl implements UserService {
         User fs = user.orElseThrow(() -> new UsernameNotFoundException(User.class, username));
 
         return new CustomUserPrincipal(fs);
+    }
+
+    @Override
+    public Optional<User> findUserByUsername(String username) {
+        return repository.findByUsername(username);
     }
 
 }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import classes from './Login.css';
 import { Redirect } from 'react-router-dom';
+import bcrypt from 'bcryptjs';
+import axios from '../../axios';
 
 class Login extends Component {
 
@@ -12,26 +14,47 @@ class Login extends Component {
         api_key: null
     };
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (!this.state.username) {
+        // const username = 'sironm';
+        // const password = '123';
+
+        const username = this.state.username;
+        const password = this.state.password;
+
+        const salt = bcrypt.genSaltSync(12);
+        const hashedPass = bcrypt.hashSync(password, salt);
+
+        console.log("username: "+username);
+        console.log("password: "+password);
+
+        if (!username) {
             console.log("handleSubmit, username incorrect");
-            return this.setState({ error: 'Username is required' });
+            return this.setState({error: 'Username is required'});
         }
 
-        if (!this.state.password) {
+        if (!password) {
             console.log("handleSubmit, password incorrect");
-            return this.setState({ error: 'Password is required' });
+            return this.setState({error: 'Password is required'});
         }
 
-        if (this.state.username === 'test' && this.state.password === 'test') {
-            this.login();
-        }else {
-            return this.setState({ error: 'Incorrect username or password!' });
-        }
+        await axios.get("/validate", {
+            auth: {
+                username: username,
+                password: hashedPass
+            }
+        })
+            .then(() => {
+                console.log("Authenticated");
+                this.login();
+            })
+            .catch(error => {
+                console.log("Authentication failed: "+error);
+                this.setState({error: 'Incorrect username or password!'});
+            });
 
-        return this.setState({ error: '' });
+        return this.state.error;
     };
 
     dismissError = () => {
@@ -55,8 +78,16 @@ class Login extends Component {
                             {this.state.error}
                         </h3>
                     }
-                    <input type="text" placeholder="Username" value={this.state.username} onChange={event => this.setState({username: event.target.value})} />
-                    <input type="password" placeholder="password" value={this.state.password} onChange={event => this.setState({password: event.target.value})} />
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={this.state.username}
+                        onChange={event => this.setState({username: event.target.value})} />
+                    <input
+                        type="password"
+                        placeholder="password"
+                        value={this.state.password}
+                        onChange={event => this.setState({password: event.target.value})} />
                     <input type="submit" value="Log In" />
                 </form>
             </div>

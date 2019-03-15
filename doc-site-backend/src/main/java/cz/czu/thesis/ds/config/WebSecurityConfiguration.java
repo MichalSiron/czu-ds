@@ -18,6 +18,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -25,7 +26,7 @@ import java.util.Collections;
 //@EnableJpaRepositories(basePackageClasses = UserRepository.class)
 @Configuration
 @EnableWebSecurity
-public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter implements Serializable {
 
     private static final String[] PUBLIC_STATIC_RESOURCES = {"/", "/static/**", "/index.html"};
     private static final String[] PUBLIC_API_RESOURCES = {"/api/"};
@@ -50,6 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 //    @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(12);
+//        return getPasswordEncoder();
     }
 
     private PasswordEncoder getPasswordEncoder() {
@@ -74,7 +76,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
         configuration.setAllowedMethods(Arrays.asList("GET","POST"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
         return source;
     }
 
@@ -82,8 +84,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-//                .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
+                .antMatchers("/public/**").permitAll()
+                .anyRequest().authenticated()
                 .and().cors()
                 .and().httpBasic();
         http.csrf().disable();

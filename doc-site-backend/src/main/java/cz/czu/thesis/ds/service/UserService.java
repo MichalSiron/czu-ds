@@ -13,8 +13,10 @@ public interface UserService extends UserDetailsService {
      * @param id a not-null user id
      * @return Optional wrapping user information, or empty if information was not found
      */
-    Optional<User> findUser(Long id);
+    Optional<User> findUserById(Long id);
 
     UserDetails loadUserByUsername(String username);
+
+    Optional<User> findUserByUsername(String username);
 
 }

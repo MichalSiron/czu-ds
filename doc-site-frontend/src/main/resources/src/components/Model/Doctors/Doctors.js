@@ -13,7 +13,7 @@ class Doctors extends Component {
     };
 
     componentDidMount(){
-        axios.get('/doctors')
+        axios.get('/public/doctors')
             .then(response => {
                 this.setState({
                     loadedDoctors: response.data
