@@ -1,23 +1,15 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
 
-import Doctors from '../../components/Model/Doctors/Doctors';
-import Login from '../Login/Login';
-import Patients from '../../components/Model/Patient/Patients';
+import Routes from '../../Routes';
 
 class DoctorSiteBuilder extends Component {
 
     render() {
 
         return (
-            <div>
-                <Route path="/" exact component={Doctors}/>
-                <Route path="/login" component={Login}/>
-                <Route path="/patients" component={Patients}/>
-            </div>
+            <Routes auth={this.props.auth} />
         );
     }
-
 }
 
 export default DoctorSiteBuilder;

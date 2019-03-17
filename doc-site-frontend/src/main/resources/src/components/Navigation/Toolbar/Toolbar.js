@@ -4,7 +4,7 @@ import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
 import { Link } from 'react-router-dom';
 
-const toolbar = () => (
+const toolbar = (props) => (
     <header className={classes.Toolbar}>
         <div className={classes.Logo}>
             <Link to="/" >
@@ -12,7 +12,7 @@ const toolbar = () => (
             </Link>
         </div>
         <nav className={classes.DesktopOnly}>
-            <NavigationItems unsuported={() => alert('This feature is not supported yet!')}/>
+            <NavigationItems auth={props.auth}/>
         </nav>
     </header>
 );

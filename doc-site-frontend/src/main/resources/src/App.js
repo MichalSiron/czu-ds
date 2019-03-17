@@ -7,14 +7,26 @@ import DoctorSiteBuilder from './containers/DoctorSite/DoctorSiteBuilder';
 
 class App extends Component {
 
+    state = {
+        isAuthenticated: false
+    };
+
+    userHasAuthenticated = (authenticated, callback)=> {
+        this.setState({ isAuthenticated: authenticated }, ()=>callback());
+    };
+
   render() {
-    return (
-        <BrowserRouter>
-            <Layout>
-              <DoctorSiteBuilder/>
-            </Layout>
-        </BrowserRouter>
-    );
+
+      const authentication = {
+          isAuthenticated: this.state.isAuthenticated,
+          userHasAuthenticated: this.userHasAuthenticated
+      };
+
+      return <BrowserRouter>
+                    <Layout auth={authentication}>
+                         <DoctorSiteBuilder auth={authentication}/>
+                     </Layout>
+              </BrowserRouter>;
   }
 }
 
