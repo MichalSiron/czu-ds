@@ -38,11 +38,4 @@ public class PrivateController {
         return oUser.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/validate")
-    public ResponseEntity<UserDetails> getAuthentication(@AuthenticationPrincipal UserDetails userDetails){
-        System.out.println("AuthenticationPrincipal: "+userDetails);
-
-        return Optional.ofNullable(userDetails).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-    }
-
 }

@@ -6,10 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "name", uniqueConstraints = {@UniqueConstraint(columnNames = {"name_id"})})
+@SequenceGenerator(name = "name_name_id_seq", sequenceName = "name_name_id_seq", allocationSize = 1)
 public class Name extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "name_name_id_seq")
     @Column(name = "name_id", nullable = false, updatable = false, length = 32)
     private Long nameId;
 
@@ -19,14 +20,9 @@ public class Name extends BaseEntity<Long> {
     @Column(name = "last_name")
     private String lastName;
 
-    @OneToOne(mappedBy = "name")
-    @JsonIgnore
-    private Person person;
-
     Name(){}
 
-    public Name(Long id, String firstName, String lastName) {
-        this.nameId = id;
+    public Name(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
@@ -36,28 +32,28 @@ public class Name extends BaseEntity<Long> {
         return nameId;
     }
 
-    public String getFirst_name() {
+    public Long getNameId() {
+        return nameId;
+    }
+
+    public void setNameId(Long nameId) {
+        this.nameId = nameId;
+    }
+
+    public String getFirstName() {
         return firstName;
     }
 
-    public void setFirst_name(String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public String getLast_name() {
+    public String getLastName() {
         return lastName;
     }
 
-    public void setLast_name(String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
     @Override

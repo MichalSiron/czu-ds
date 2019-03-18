@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,11 +29,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(@NotBlank @NotNull String username) {
-        Optional<User> user = repository.findByUsername(username);
-        User fs = user.orElseThrow(() -> new UsernameNotFoundException(User.class, username));
+        User user = repository.findByUsername(username).orElseThrow(() ->
+                new UsernameNotFoundException("User not found with username or email : " + username));
 
-        return new CustomUserPrincipal(fs);
+        return CustomUserPrincipal.create(user);
+    }
+
+    // This method is used by JWTAuthenticationFilter
+    @Transactional
+    public UserDetails loadUserById(Long id) {
+        User user = repository.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found with id : " + id)
+        );
+
+        return CustomUserPrincipal.create(user);
     }
 
     @Override

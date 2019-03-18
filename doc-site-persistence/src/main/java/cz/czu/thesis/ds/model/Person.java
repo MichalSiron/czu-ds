@@ -6,23 +6,21 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "person", uniqueConstraints = {@UniqueConstraint(columnNames = {"person_id"})})
+@SequenceGenerator(name = "person_person_id_seq", sequenceName = "person_person_id_seq", allocationSize = 1)
 public class Person extends BaseEntity<Long> {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_person_id_seq")
     @Column(name = "person_id", nullable = false, updatable = false, length = 32)
     private Long personId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "name_id")
     private Name name;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
-
-    @OneToOne(mappedBy = "person", fetch = FetchType.LAZY)
-    @JsonIgnore
-    private User user;
 
     @Override
     public Long getId() {
@@ -31,8 +29,7 @@ public class Person extends BaseEntity<Long> {
 
     Person(){}
 
-    public Person(Long id, Name name, Address address) {
-        this.personId = id;
+    public Person(Name name, Address address) {
         this.name = name;
         this.address = address;
     }
@@ -56,14 +53,6 @@ public class Person extends BaseEntity<Long> {
 
     public void setAddress(Address address) {
         this.address = address;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public Long getPersonId() {

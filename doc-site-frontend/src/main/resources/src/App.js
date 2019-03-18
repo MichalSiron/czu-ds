@@ -1,33 +1,65 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from 'react-router-dom';
-
-import Layout from './components/Layout/Layout';
-import DoctorSiteBuilder from './containers/DoctorSite/DoctorSiteBuilder';
+import {Route, withRouter} from 'react-router-dom';
+import { getCurrentUser } from "./util/APIUtils";
+import { notification } from 'antd';
+import Login from "./components/user/login/Login";
+import Profile from './components/user/profile/Profile';
 
 
 class App extends Component {
 
     state = {
-        isAuthenticated: false
+        currentUser: null,
+        isAuthenticated: false,
+        isLoading: false
     };
 
     userHasAuthenticated = (authenticated, callback)=> {
         this.setState({ isAuthenticated: authenticated }, ()=>callback());
     };
 
-  render() {
+    loadCurrentUser =() => {
+        console.log("du nacist Current usera");
+        this.setState({isLoading: true});
+        getCurrentUser().then(response => {
+            this.setState({
+                currentUser: response,
+                isAuthenticated: true,
+                isLoading: false
+            });
+        }).catch(err => {
+            this.setState({
+                isLoading: false
+            });
+            console.log(err);
+        })
+    };
+    componentDidMount() {
+        this.loadCurrentUser();
+    }
 
-      const authentication = {
-          isAuthenticated: this.state.isAuthenticated,
-          userHasAuthenticated: this.userHasAuthenticated
-      };
+    handleLogin = () => {
+        notification.success({
+            message: 'Doctor Site App',
+            description: "You're successfully logged in.",
+        });
+        this.loadCurrentUser();
+    };
 
-      return <BrowserRouter>
-                    <Layout auth={authentication}>
-                         <DoctorSiteBuilder auth={authentication}/>
-                     </Layout>
-              </BrowserRouter>;
+    render() {
+
+      return (
+          <div className="container">
+              <>
+                  <div>UVOD VOLE</div>
+                  <Route path="/login" render={(props) => <Login onLogin={this.handleLogin} {...props} />} />
+                  <Route path="/users/:username"
+                         render={(props) => <Profile isAuthenticated={this.state.isAuthenticated} currentUser={this.state.currentUser} {...props}  />}>
+                  </Route>
+              </>
+          </div>
+      )
   }
 }
 
-export default App;
+export default withRouter(App);

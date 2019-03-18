@@ -41,23 +41,23 @@ public class DsApplicationTest {
     public void isContextActive() { assertTrue(context.isActive()); }
 
 
-    @Test
-    public void databaseStructureTest() throws JsonProcessingException {
-        Address address = new Address(1L, "Karla stecha", "Ceske Budejovice", 37005);
-        Name name = new Name(1L, "Michal", "Siron");
-        Person person = new Person(1L, name, address);
-        User user = new User(1L, person);
-        user.setUsername("sironm");
-        user.setPassword("12345");
-
-        name.setPerson(person);
-        address.setPerson(person);
-        person.setUser(user);
-
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        System.out.println(objectMapper.writeValueAsString(user));
-    }
+//    @Test
+//    public void databaseStructureTest() throws JsonProcessingException {
+//        Address address = new Address(1L, "Karla stecha", "Ceske Budejovice", 37005);
+//        Name name = new Name(1L, "Michal", "Siron");
+//        Person person = new Person(1L, name, address);
+//        User user = new User(1L, person);
+//        user.setUsername("sironm");
+//        user.setPassword("12345");
+//
+//        name.setPerson(person);
+//        address.setPerson(person);
+//        person.setUser(user);
+//
+//        ObjectMapper objectMapper = new ObjectMapper();
+//
+//        System.out.println(objectMapper.writeValueAsString(user));
+//    }
 
 
 //    @Test

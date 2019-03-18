@@ -6,10 +6,11 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "address", uniqueConstraints = {@UniqueConstraint(columnNames = {"address_id"})})
+@SequenceGenerator(name = "address_address_id_seq", sequenceName = "address_address_id_seq", allocationSize = 1)
 public class Address extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "address_address_id_seq")
     @Column(name = "address_id", nullable = false, updatable = false, length = 32)
     private Long addressId;
 
@@ -22,14 +23,9 @@ public class Address extends BaseEntity<Long> {
     @Column(name = "psc")
     private Integer psc;
 
-    @OneToOne(mappedBy = "address")
-    @JsonIgnore
-    private Person person;
-
     public Address(){}
 
-    public Address(Long id, String street, String city, Integer psc) {
-        this.addressId = id;
+    public Address(String street, String city, Integer psc) {
         this.street = street;
         this.city = city;
         this.psc = psc;
@@ -62,14 +58,6 @@ public class Address extends BaseEntity<Long> {
 
     public void setPsc(Integer psc) {
         this.psc = psc;
-    }
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
     }
 
     @Override

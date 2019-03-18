@@ -7,9 +7,6 @@ databaseChangeLog:
           tableName: name
           columns:
             - column:
-                name: name_id
-                value: 1
-            - column:
                 name: first_name
                 value: Michal
             - column:
@@ -24,9 +21,6 @@ databaseChangeLog:
       - insert:
           tableName: address
           columns:
-            - column:
-                name: address_id
-                value: 1
             - column:
                 name: street
                 value: Karla Stecha
@@ -46,9 +40,6 @@ databaseChangeLog:
           tableName: address
           columns:
             - column:
-                name: address_id
-                value: 2
-            - column:
                 name: street
                 value: Lovosecka
             - column:
@@ -66,9 +57,6 @@ databaseChangeLog:
       - insert:
           tableName: person
           columns:
-            - column:
-                name: person_id
-                value: 1
             - column:
                 name: name_id
                 value: 1
@@ -89,7 +77,7 @@ databaseChangeLog:
                 value: 1
             - column:
                 name: value
-                value: USER
+                value: ROLE_ADMIN
             - column:
                 name: created_at
                 value: now()
@@ -104,7 +92,7 @@ databaseChangeLog:
                 value: 2
             - column:
                 name: value
-                value: ADMIN
+                value: ROLE_DOCTOR
             - column:
                 name: created_at
                 value: now()
@@ -119,7 +107,7 @@ databaseChangeLog:
                 value: 3
             - column:
                 name: value
-                value: MEDIC
+                value: ROLE_PATIENT
             - column:
                 name: created_at
                 value: now()
@@ -129,9 +117,6 @@ databaseChangeLog:
       - insert:
           tableName: users
           columns:
-            - column:
-                name: user_id
-                value: 1
             - column:
                 name: person_id
                 value: 1

@@ -7,11 +7,16 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {
+        "username"
+        })
+})
+@SequenceGenerator(name = "users_user_id_seq", sequenceName = "users_user_id_seq", allocationSize = 1)
 public class User extends BaseEntity<Long> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_user_id_seq")
     @Column(name = "user_id", nullable = false, updatable = false, length = 32)
     private Long id;
 
@@ -25,7 +30,7 @@ public class User extends BaseEntity<Long> {
     @Column(name = "last_active", nullable = false, precision = 3)
     private LocalDateTime lastActive;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "person_id")
     private Person person;
 
@@ -39,10 +44,11 @@ public class User extends BaseEntity<Long> {
         //only for framework purpose//
     }
 
-    public User(Long id, Person person){
-        this.id = id;
+    public User(Person person, String username, String password){
         this.person = person;
         this.lastActive = LocalDateTime.now();
+        this.username = username;
+        this.password = password;
     }
 
     @Override

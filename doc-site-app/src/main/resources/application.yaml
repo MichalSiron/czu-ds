@@ -24,3 +24,7 @@ server:
   port: 8088
   servlet:
     context-path: /api
+# APP properties
+app:
+  jwtSecret: JWTSuperSecretKey
+  jwtExpirationInMs: 604800000
