@@ -146,7 +146,7 @@ databaseChangeLog:
           columns:
             - column:
                 name: role_id
-                value: 2
+                value: 3
             - column:
                 name: user_id
                 value: 1

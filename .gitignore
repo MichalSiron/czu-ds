@@ -29,3 +29,5 @@
 /doc-site-backend/target/
 /doc-site-frontend/target/
 /doc-site-persistence/target/
+
+/node_modules/

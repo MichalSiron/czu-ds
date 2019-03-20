@@ -1,8 +1,8 @@
 package cz.czu.thesis.ds.model;
 
-import com.fasterxml.jackson.annotation.*;
 import cz.czu.thesis.ds.base.BaseEntity;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "person", uniqueConstraints = {@UniqueConstraint(columnNames = {"person_id"})})
@@ -21,6 +21,12 @@ public class Person extends BaseEntity<Long> {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id")
     private Address address;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Doctor> doctors;
+
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<PersonDoctorValidation> validations;
 
     @Override
     public Long getId() {
@@ -61,6 +67,22 @@ public class Person extends BaseEntity<Long> {
 
     public void setPersonId(Long personId) {
         this.personId = personId;
+    }
+
+    public List<Doctor> getDoctors() {
+        return doctors;
+    }
+
+    public void setDoctors(List<Doctor> doctors) {
+        this.doctors = doctors;
+    }
+
+    public List<PersonDoctorValidation> getValidations() {
+        return validations;
+    }
+
+    public void setValidations(List<PersonDoctorValidation> validations) {
+        this.validations = validations;
     }
 
     @Override

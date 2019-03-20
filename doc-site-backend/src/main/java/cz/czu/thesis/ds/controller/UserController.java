@@ -1,5 +1,10 @@
 package cz.czu.thesis.ds.controller;
 
+import cz.czu.thesis.ds.exception.ResourceNotFoundException;
+import cz.czu.thesis.ds.model.PersonDoctorValidation;
+import cz.czu.thesis.ds.model.User;
+import cz.czu.thesis.ds.payload.DoctorResponse;
+import cz.czu.thesis.ds.payload.UserProfile;
 import cz.czu.thesis.ds.payload.UserSummary;
 import cz.czu.thesis.ds.repository.UserRepository;
 import cz.czu.thesis.ds.security.CurrentUser;
@@ -7,7 +12,13 @@ import cz.czu.thesis.ds.security.CustomUserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 public class UserController {
@@ -18,7 +29,43 @@ public class UserController {
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('PATIENT')")
     public UserSummary getCurrentUser(@CurrentUser CustomUserPrincipal currentUser) {
+        System.out.println(currentUser);
         return new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+    }
+
+    @GetMapping("/users/{username}")
+    public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+
+        long validatedDoctors = user.getPerson().getValidations().stream().filter(PersonDoctorValidation::isValidated).count();
+        long invalidatedDoctors = user.getPerson().getValidations().stream().filter(validation -> !validation.isValidated()).count();
+
+        String firstname = user.getPerson().getName().getFirstName();
+        String lastname = user.getPerson().getName().getLastName();
+
+        return new UserProfile(user.getId(), user.getUsername(), firstname+" "+lastname, user.getCreatedAt(), validatedDoctors, invalidatedDoctors);
+    }
+
+    @GetMapping("/users/{username}/doctors")
+    public List<DoctorResponse> getDoctors(@PathVariable(value = "username") String username,
+                                                  @CurrentUser CustomUserPrincipal currentUser,
+                                                  @RequestParam(value = "valid") Boolean valid) {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException("User", "username", username));
+        Stream<PersonDoctorValidation> stream = user.getPerson()
+                .getValidations()
+                .stream();
+
+        if (valid)
+            return mapper(stream.filter(PersonDoctorValidation::isValidated)).collect(Collectors.toList());
+        else {
+            return mapper(stream.filter(validation -> !validation.isValidated())).collect(Collectors.toList());
+        }
+    }
+
+    private Stream<DoctorResponse> mapper(Stream<PersonDoctorValidation> stream){
+        return stream.map(validation -> new DoctorResponse(validation.getDoctor().getId(),
+                validation.getDoctor().getPerson().getName(), validation.getDoctor().getSurgery().getAddress()));
     }
 
 }

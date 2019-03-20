@@ -43,11 +43,6 @@ public class PublicController {
         return oDoctor.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/test")
-    public String getTest(){
-        return "test";
-    }
-
     @GetMapping
     public ResponseEntity<List<Doctor>> getDoctors(){
         System.out.println("getDoctors");

@@ -1,46 +1,76 @@
 import React, { Component } from 'react';
-import axios from "../../../axios";
 
-import Spinner from '../../UI/Spinner/Spinner';
+
 import Doctor from './Doctor/Doctor';
-import classes from './Doctors.css';
-
+import {getUserProfile} from "../../../util/APIUtils";
 class Doctors extends Component {
 
     state = {
-        loadingError: false,
-        loadedDoctors: null
+        doctors: [],
+        isLoading: false
     };
 
-    componentDidMount(){
-        axios.get('/public/doctors')
+    loadDoctorList = (username) => {
+        this.setState({
+            isLoading: true
+        });
+
+        getValidatedDoctorsForProfile(username)
             .then(response => {
                 this.setState({
-                    loadedDoctors: response.data
+                    doctors: response,
+                    isLoading: false
                 });
-                console.log(response.data);
-                this.setState({loadingError: false})
             }).catch(error => {
-                this.setState({loadingError: true});
-                console.log(error);
-        });
-    }
+            if(error.status === 404) {
+                this.setState({
+                    notFound: true,
+                    isLoading: false
+                });
+            } else {
+                this.setState({
+                    serverError: true,
+                    isLoading: false
+                });
+            }
+        })
+
+
+
+    };
 
     render() {
-        let doctors = <Spinner/>;
-        if (this.state.loadedDoctors) {
-            doctors = this.state.loadedDoctors.map(doctor =>
-                <Doctor
+        const pollViews = [];
+
+        this.state.doctors.forEach((doctor) => {
+            pollViews.push(<Doctor
                 key={doctor.id}
-                id={doctor.id}
-                name={doctor.person.name.first_name}
-                surname={doctor.person.name.last_name}
-                description={doctor.surgery.description}/>);
-        }
+                doctor={doctor} />)
+        });
 
         return (
-            <div className={classes.Doctors}>
-                {doctors}
+
+            <div className="polls-container">
+                {pollViews}
+                {
+                    !this.state.isLoading && this.state.polls.length === 0 ? (
+                        <div className="no-polls-found">
+                            <span>No Polls Found.</span>
+                        </div>
+                    ): null
+                }
+                {
+                    !this.state.isLoading && !this.state.last ? (
+                        <div className="load-more-polls">
+                            <Button type="dashed" onClick={this.handleLoadMore} disabled={this.state.isLoading}>
+                                <Icon type="plus" /> Load more
+                            </Button>
+                        </div>): null
+                }
+                {
+                    this.state.isLoading ?
+                        <LoadingIndicator />: null
+                }
             </div>
         );
     }

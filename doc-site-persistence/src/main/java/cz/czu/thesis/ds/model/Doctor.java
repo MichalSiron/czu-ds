@@ -3,6 +3,8 @@ package cz.czu.thesis.ds.model;
 import cz.czu.thesis.ds.base.BaseEntity;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "doctor")
@@ -17,9 +19,15 @@ public class Doctor extends BaseEntity<Long> {
     @JoinColumn(name = "surgery_id")
     private Surgery surgery;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "person_id")
     private Person person;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "doctor_patient",
+            joinColumns = @JoinColumn(name = "doctor_id", referencedColumnName = "doctor_id"),
+            inverseJoinColumns = @JoinColumn(name = "patient_id", referencedColumnName = "patient_id"))
+    private Set<Patient> patients;
 
     @Override
     public Long getId() {
@@ -44,6 +52,14 @@ public class Doctor extends BaseEntity<Long> {
 
     public void setSurgery(Surgery surgery) {
         this.surgery = surgery;
+    }
+
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
     }
 
     @Override

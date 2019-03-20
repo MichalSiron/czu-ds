@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import classes from './Login.css';
+import './Login.css';
 import { Link } from 'react-router-dom';
 import { ACCESS_TOKEN } from '../../../constants';
 import { Form, Input, Button, Icon, notification } from 'antd';
@@ -11,7 +11,7 @@ class Login extends Component {
     render() {
         const AntWrappedLoginForm = Form.create()(LoginForm);
         return (
-            <div className={classes["login-container"]}>
+            <div className="login-container">
                 <h1 className="page-title">Login</h1>
                 <div className="login-content">
                     <AntWrappedLoginForm onLogin={this.props.onLogin} />
@@ -30,17 +30,17 @@ class LoginForm extends Component {
                 const loginRequest = Object.assign({}, values);
                 login(loginRequest)
                     .then(response => {
-                        localStorage.setItem(ACCESS_TOKEN, response.accessToken);
+                        localStorage.setItem(ACCESS_TOKEN, response.data.accessToken);
                         this.props.onLogin();
                     }).catch(error => {
                     if(error.status === 401) {
                         notification.error({
-                            message: 'Polling App',
+                            message: 'Doctor App',
                             description: 'Your Username or Password is incorrect. Please try again!'
                         });
                     } else {
                         notification.error({
-                            message: 'Polling App',
+                            message: 'Doctor App',
                             description: error.message || 'Sorry! Something went wrong. Please try again!'
                         });
                     }
@@ -51,6 +51,7 @@ class LoginForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        console.log("hhhhhhh: "+ getFieldDecorator);
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
@@ -77,7 +78,7 @@ class LoginForm extends Component {
                     )}
                 </FormItem>
                 <FormItem>
-                    <Button type="primary" htmlType="submit" size="large" className={classes["login-form-button"]}>Login</Button>
+                    <Button type="primary" htmlType="submit" size="large" className="login-form-button">Login</Button>
                     Or <Link to="/signup">register now!</Link>
                 </FormItem>
             </Form>

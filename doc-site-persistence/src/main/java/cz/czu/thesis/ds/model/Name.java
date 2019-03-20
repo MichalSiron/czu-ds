@@ -1,6 +1,5 @@
 package cz.czu.thesis.ds.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.czu.thesis.ds.base.BaseEntity;
 import javax.persistence.*;
 

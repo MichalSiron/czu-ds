@@ -127,33 +127,16 @@ databaseChangeLog:
             constraints:
               nullable: false
     - createTable:
-        tableName: surgery_patient_list
+        tableName: doctor_patient
         columns:
         - column:
-            name: surgery_patient_list_id
+            name: doctor_id
             type: bigint
-            autoIncrement: true
             constraints:
-              primaryKey: true
               nullable: false
         - column:
             name: patient_id
             type: bigint
-            constraints:
-              nullable: false
-        - column:
-            name: surgery_id
-            type: bigint
-            constraints:
-              nullable: false
-        - column:
-            name: created_at
-            type: timestamp without time zone
-            constraints:
-              nullable: false
-        - column:
-            name: modified_at
-            type: timestamp without time zone
             constraints:
               nullable: false
     - createTable:
@@ -242,7 +225,7 @@ databaseChangeLog:
             constraints:
               nullable: false
         - column:
-            name: surgery_id
+            name: doctor_id
             type: bigint
             constraints:
               nullable: false
@@ -407,6 +390,46 @@ databaseChangeLog:
         - column:
             name: last_name
             type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+- changeSet:
+    id: 20190319200321
+    author: sironm
+    description: Doctor validation for user/pacient
+    changes:
+    - createTable:
+        tableName: person_doctor_validation
+        columns:
+        - column:
+            name: validation_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              autoIncrement: true
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: doctor_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: validated
+            type: boolean
             constraints:
               nullable: false
         - column:
