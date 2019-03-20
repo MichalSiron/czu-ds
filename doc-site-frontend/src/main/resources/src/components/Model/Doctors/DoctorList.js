@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import './DoctorList.css';
-import './Doctor.css';
+import './Doctor/Doctor.css';
 import { Card, Col, Row } from 'antd';
 import { getAllDoctors, getValidatedDoctorsForProfile } from "../../../util/APIUtils";
 import Doctor from "./Doctor/Doctor";
@@ -46,17 +46,23 @@ class DoctorList extends Component{
     render() {
         const docs = [];
         this.state.doctors.forEach((doctor) => {
-            docs.push(<Doctor
-                key={doctor.id}
-                username="kolarpa1"
-                name={doctor.name}
-                address={doctor.address}
-            />)
+            docs.push(
+                <Col span={12}>
+                    <Doctor
+                        key={doctor.id}
+                        username={doctor.username}
+                        created={doctor.created}
+                        name={doctor.name}
+                        address={doctor.address}/>
+                </Col>
+            )
         });
 
         return(
             <div className="doctors-container">
-                {docs}
+                <Row>
+                    {docs}
+                </Row>
                 {
                     this.state.doctors.length === 0 ? (
                         <div className="no-doctors-found">
@@ -64,27 +70,6 @@ class DoctorList extends Component{
                         </div>
                     ) : null
                 }
-                <Row>
-                    <Col span={6}>
-                        <Card
-                            title="Card title"
-                            hoverable='true'
-                        >Card content</Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card
-                            title="Card title">Card content</Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card
-                            title="Card title"
-                        >Card content</Card>
-                    </Col>
-                    <Col span={6}>
-                        <Card
-                            title="Card title">Card content</Card>
-                    </Col>
-                </Row>
             </div>
         )
     }

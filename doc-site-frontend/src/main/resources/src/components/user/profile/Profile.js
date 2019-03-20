@@ -83,28 +83,28 @@ class Profile extends Component{
                         <div className="user-profile">
                             <div className="user-details">
                                 <div className="user-avatar">
-                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.name)}}>
-                                        {this.state.user.name}
+                                    <Avatar className="user-avatar-circle" style={{ backgroundColor: getAvatarColor(this.state.user.name.firstName)}}>
+                                        {this.state.user.name.firstName}
                                     </Avatar>
                                 </div>
                                 <div className="user-summary">
-                                    <div className="full-name">{this.state.user.name}</div>
+                                    <div className="full-name">{this.state.user.name.firstName +' '+ this.state.user.name.lastName}</div>
                                     <div className="username">@{this.state.user.username}</div>
                                     <div className="user-joined">
                                         Joined {formatDate(this.state.user.joinedAt)}
                                     </div>
                                 </div>
                             </div>
-                            <div className="user-poll-details">
+                            <div className="user-doctor-details">
                                 <Tabs defaultActiveKey="1"
                                       animated={false}
                                       tabBarStyle={{textAlign: 'center'}}
                                       size="large"
                                       className="profile-tabs">
-                                    <TabPane tab={`${this.state.user.validatedDoctorsCount} Doctors`} key="1">
+                                    <TabPane tab={`${this.state.user.validatedDoctorsCount} Valid Doctors`} key="1">
                                         <DoctorList username={this.props.match.params.username} type="VALIDATED_DOCTORS" />
                                     </TabPane>
-                                    <TabPane tab={`${this.state.user.invalidatedDoctorsCount} Doctors`} key="2">
+                                    <TabPane tab={`${this.state.user.invalidatedDoctorsCount} Pending Doctors`} key="2">
                                         <DoctorList username={this.props.match.params.username} type="PENDING_DOCTORS" />
                                     </TabPane>
                                 </Tabs>

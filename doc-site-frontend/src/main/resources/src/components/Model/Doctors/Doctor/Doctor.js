@@ -22,13 +22,13 @@ class Doctor extends Component {
                         <Link className="doctor-link" to={`/users/${this.props.username}`}>
                             <Avatar className="doctor-avatar"
                                     style={{ backgroundColor: getAvatarColor(this.props.name)}} >
-                                {name.toUpperCase()}
+                                {this.props.name.firstName.toUpperCase()}
                             </Avatar>
                             <span className="doctor-name">
-                                {this.props.address.city}
+                                {name}
                             </span>
                             <span className="doctor-creation-date">
-                                {formatDateTime()}
+                                Created: {formatDateTime(this.props.created)}
                             </span>
                         </Link>
                     </div>

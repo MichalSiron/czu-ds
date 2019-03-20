@@ -1,6 +1,7 @@
 package cz.czu.thesis.ds.controller;
 
 import cz.czu.thesis.ds.exception.ResourceNotFoundException;
+import cz.czu.thesis.ds.model.Doctor;
 import cz.czu.thesis.ds.model.PersonDoctorValidation;
 import cz.czu.thesis.ds.model.User;
 import cz.czu.thesis.ds.payload.DoctorResponse;
@@ -41,10 +42,7 @@ public class UserController {
         long validatedDoctors = user.getPerson().getValidations().stream().filter(PersonDoctorValidation::isValidated).count();
         long invalidatedDoctors = user.getPerson().getValidations().stream().filter(validation -> !validation.isValidated()).count();
 
-        String firstname = user.getPerson().getName().getFirstName();
-        String lastname = user.getPerson().getName().getLastName();
-
-        return new UserProfile(user.getId(), user.getUsername(), firstname+" "+lastname, user.getCreatedAt(), validatedDoctors, invalidatedDoctors);
+        return new UserProfile(user.getId(), user.getUsername(), user.getPerson().getName(), user.getCreatedAt(), validatedDoctors, invalidatedDoctors);
     }
 
     @GetMapping("/users/{username}/doctors")
@@ -64,8 +62,17 @@ public class UserController {
     }
 
     private Stream<DoctorResponse> mapper(Stream<PersonDoctorValidation> stream){
-        return stream.map(validation -> new DoctorResponse(validation.getDoctor().getId(),
-                validation.getDoctor().getPerson().getName(), validation.getDoctor().getSurgery().getAddress()));
+        return stream.map(validation -> {
+            final Doctor doctor = validation.getDoctor();
+
+            String personUsername = userRepository.getPersonUsername(doctor.getPerson().getId());
+            return new DoctorResponse(
+                    doctor.getId(),
+                    personUsername,
+                    doctor.getPerson().getName(),
+                    doctor.getSurgery().getAddress(),
+                    doctor.getCreatedAt());
+        });
     }
 
 }

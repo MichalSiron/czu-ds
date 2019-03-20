@@ -1,16 +1,18 @@
 package cz.czu.thesis.ds.payload;
 
+import cz.czu.thesis.ds.model.Name;
+
 import java.time.LocalDateTime;
 
 public class UserProfile {
     private Long id;
     private String username;
-    private String name;
+    private Name name;
     private LocalDateTime joinedAt;
     private Long validatedDoctorsCount;
     private Long invalidatedDoctorsCount;
 
-    public UserProfile(Long id, String username, String name, LocalDateTime joinedAt, Long validDoctors, Long invalidDoctors) {
+    public UserProfile(Long id, String username, Name name, LocalDateTime joinedAt, Long validDoctors, Long invalidDoctors) {
         this.id = id;
         this.username = username;
         this.name = name;
@@ -35,11 +37,11 @@ public class UserProfile {
         this.username = username;
     }
 
-    public String getName() {
+    public Name getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Name name) {
         this.name = name;
     }
 

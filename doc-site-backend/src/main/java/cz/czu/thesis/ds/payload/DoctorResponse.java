@@ -3,40 +3,42 @@ package cz.czu.thesis.ds.payload;
 import cz.czu.thesis.ds.model.Address;
 import cz.czu.thesis.ds.model.Name;
 
+import java.time.LocalDateTime;
+
 public class DoctorResponse {
 
     private Long id;
+    private String username;
     private Name name;
     private Address address;
+    private LocalDateTime created;
 
-    public DoctorResponse(Long id, Name name, Address address) {
+    public DoctorResponse(Long id, String username, Name name, Address address, LocalDateTime created) {
         this.id = id;
+        this.username = username;
         this.name = name;
         this.address = address;
+        this.created = created;
     }
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public String getUsername() {
+        return username;
     }
 
     public Name getName() {
         return name;
     }
 
-    public void setName(Name name) {
-        this.name = name;
-    }
-
     public Address getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public LocalDateTime getCreated() {
+        return created;
     }
 
     @Override

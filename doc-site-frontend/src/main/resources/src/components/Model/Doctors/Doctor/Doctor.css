@@ -1,15 +1,26 @@
 .doctors-container {
     max-width: 600px;
-    margin: 0 auto;
-    margin-top: 20px;
+    margin: 20px auto 0;
 }
 
 .doctor-content {
-    margin-bottom: 30px;
+    /*margin-bottom: 10px;*/
+    margin: 5px;
     padding: 20px 15px 20px 15px;
     letter-spacing: .01em;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
 }
+
+/*.doctor-content {*/
+    /*width: 250px;*/
+    /*border: 1px solid #cccccc;*/
+    /*box-shadow: 0 2px 3px #cccccc;*/
+    /*margin: 10px;*/
+    /*box-sizing: border-box;*/
+    /*text-align: center;*/
+    /*cursor: pointer;*/
+    /*padding: 16px;*/
+/*}*/
 
 .separator {
     margin-left: 10px;
@@ -51,7 +62,7 @@
     font-size: 18px;
 }
 
-.doctor-creator-name {
+.doctor-name {
     font-size: 16px;
     font-weight: 500;
     color: rgba(0, 0, 0, 0.85);
@@ -60,7 +71,7 @@
     margin-right: 8px;
 }
 
-.doctor-creator-username {
+.doctor-username {
     color: #657786;
     font-size: 15px;
     display: inline-block;
