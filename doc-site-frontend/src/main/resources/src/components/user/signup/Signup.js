@@ -148,6 +148,30 @@ class Signup extends Component{
                 }
             });
         });
+    };
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        const signupRequest = {
+            name: this.state.name.value,
+            email: this.state.email.value,
+            username: this.state.username.value,
+            password: this.state.password.value
+        };
+        signup(signupRequest)
+            .then(response => {
+                notification.success({
+                    message: 'Doctor Site App',
+                    description: "You're successfully registered. Login to continue!",
+                });
+                this.props.history.push("/login");
+            }).catch(error => {
+            notification.error({
+                message: 'Doctor Site App',
+                description: error.message || 'Something went wrong. Try again, please!'
+            });
+        });
     }
 
     render() {

@@ -51,7 +51,6 @@ class LoginForm extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        console.log("hhhhhhh: "+ getFieldDecorator);
         return (
             <Form onSubmit={this.handleSubmit} className="login-form">
                 <FormItem>
