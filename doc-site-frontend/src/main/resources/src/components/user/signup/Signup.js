@@ -4,13 +4,12 @@ import './Signup.css';
 import { Form, Input, Button } from 'antd';
 import Link from "react-router-dom/es/Link";
 import {
-    EMAIL_MAX_LENGTH,
     NAME_MAX_LENGTH,
     NAME_MIN_LENGTH, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH,
     USERNAME_MAX_LENGTH,
     USERNAME_MIN_LENGTH
 } from "../../../constants";
-import {checkEmailAvailability, checkUsernameAvailability} from "../../../util/APIUtils";
+import { checkUsernameAvailability } from "../../../util/APIUtils";
 const FormItem = Form.Item;
 
 class Signup extends Component{
@@ -29,7 +28,7 @@ class Signup extends Component{
         }
     };
 
-    handleInputChange = (event, validationFun) => {
+    handleInputChange = (event, validation) => {
         const target = event.target;
         const inputName = target.name;
         const inputValue = target.value;
@@ -37,7 +36,7 @@ class Signup extends Component{
         this.setState({
             [inputName] : {
                 value: inputValue,
-                ...validationFun(inputValue)
+                ...validation(inputValue)
             }
         });
     };
@@ -67,7 +66,7 @@ class Signup extends Component{
 
         checkUsernameAvailability(usernameValue)
             .then(response => {
-                if(response.available) {
+                if(response.data.available) {
                     this.setState({
                         username: {
                             value: usernameValue,
@@ -96,82 +95,28 @@ class Signup extends Component{
         });
     };
 
-    validateEmailAvailability = () => {
-        // First check for client side errors in email
-        const emailValue = this.state.email.value;
-        const emailValidation = this.validateEmail(emailValue);
-
-        if(emailValidation.validateStatus === 'error') {
-            this.setState({
-                email: {
-                    value: emailValue,
-                    ...emailValidation
-                }
-            });
-            return;
-        }
-
-        this.setState({
-            email: {
-                value: emailValue,
-                validateStatus: 'validating',
-                errorMsg: null
-            }
-        });
-
-        checkEmailAvailability(emailValue)
-            .then(response => {
-                if(response.available) {
-                    this.setState({
-                        email: {
-                            value: emailValue,
-                            validateStatus: 'success',
-                            errorMsg: null
-                        }
-                    });
-                } else {
-                    this.setState({
-                        email: {
-                            value: emailValue,
-                            validateStatus: 'error',
-                            errorMsg: 'This Email is already registered'
-                        }
-                    });
-                }
-            }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                email: {
-                    value: emailValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
-            });
-        });
-    };
-
     handleSubmit(event) {
-        event.preventDefault();
-
-        const signupRequest = {
-            name: this.state.name.value,
-            email: this.state.email.value,
-            username: this.state.username.value,
-            password: this.state.password.value
-        };
-        signup(signupRequest)
-            .then(response => {
-                notification.success({
-                    message: 'Doctor Site App',
-                    description: "You're successfully registered. Login to continue!",
-                });
-                this.props.history.push("/login");
-            }).catch(error => {
-            notification.error({
-                message: 'Doctor Site App',
-                description: error.message || 'Something went wrong. Try again, please!'
-            });
-        });
+        // event.preventDefault();
+        //
+        // const signupRequest = {
+        //     name: this.state.name.value,
+        //     email: this.state.email.value,
+        //     username: this.state.username.value,
+        //     password: this.state.password.value
+        // };
+        // signup(signupRequest)
+        //     .then(response => {
+        //         notification.success({
+        //             message: 'Doctor Site App',
+        //             description: "You're successfully registered. Login to continue!",
+        //         });
+        //         this.props.history.push("/login");
+        //     }).catch(error => {
+        //     notification.error({
+        //         message: 'Doctor Site App',
+        //         description: error.message || 'Something went wrong. Try again, please!'
+        //     });
+        // });
     }
 
     render() {
@@ -204,21 +149,6 @@ class Signup extends Component{
                                 value={this.state.username.value}
                                 onBlur={this.validateUsernameAvailability}
                                 onChange={(event) => this.handleInputChange(event, this.validateUsername)} />
-                        </FormItem>
-                        <FormItem
-                            label="Email"
-                            hasFeedback
-                            validateStatus={this.state.email.validateStatus}
-                            help={this.state.email.errorMsg}>
-                            <Input
-                                size="large"
-                                name="email"
-                                type="email"
-                                autoComplete="off"
-                                placeholder="Your email"
-                                value={this.state.email.value}
-                                onBlur={this.validateEmailAvailability}
-                                onChange={(event) => this.handleInputChange(event, this.validateEmail)} />
                         </FormItem>
                         <FormItem
                             label="Password"
@@ -309,35 +239,6 @@ class Signup extends Component{
                 validateStatus: 'success',
                 errorMsg: null,
             };
-        }
-    }
-
-    validateEmail = (email) => {
-        if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email may not be empty'
-            }
-        }
-
-        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
-        if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email not valid'
-            }
-        }
-
-        if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-            }
-        }
-
-        return {
-            validateStatus: null,
-            errorMsg: null
         }
     };
 

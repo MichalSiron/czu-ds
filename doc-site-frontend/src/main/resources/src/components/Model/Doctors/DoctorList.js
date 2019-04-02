@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './DoctorList.css';
 import './Doctor/Doctor.css';
-import { Card, Col, Row } from 'antd';
+import { Col, Row } from 'antd';
 import { getAllDoctors, getValidatedDoctorsForProfile } from "../../../util/APIUtils";
 import Doctor from "./Doctor/Doctor";
 import {withRouter} from "react-router-dom";
