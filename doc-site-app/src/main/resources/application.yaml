@@ -1,0 +1,30 @@
+spring:
+#  data:
+#    rest:
+#      base-path: /api
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+  h2:
+    console:
+      enabled: false
+  data-source:
+    url: jdbc:postgresql://localhost:5432/doc_site
+    username: sironm
+    password:
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    change-log: classpath:/db.changelog/db.changelog-master.yaml
+    enabled: true
+server:
+  port: 8088
+  servlet:
+    context-path: /api
+# APP properties
+    app:
+      jwtSecret: JWTSuperSecretKey
+      jwtExpirationInMs: 604800000

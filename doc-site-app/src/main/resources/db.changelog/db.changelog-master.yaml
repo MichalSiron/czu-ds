@@ -1,0 +1,7 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog/db.changelog-tables-0.0.1.yaml
+  - include:
+      file: db.changelog/db.changelog-constraints-0.0.1.yaml
+  - include:
+      file: db.changelog/db.changelog-mock-0.0.1.yaml

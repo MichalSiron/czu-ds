@@ -1,0 +1,187 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20190225220821
+      author: sironm
+      description: Database initial constraints
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: role_id
+            baseTableName: user_role
+            constraintName: fk_userRole_role
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: role_id
+            referencedTableName: role
+        - addForeignKeyConstraint:
+              baseColumnNames: user_id
+              baseTableName: user_role
+              constraintName: fk_userRole_users
+              onDelete: CASCADE
+              onUpdate: RESTRICT
+              referencedColumnNames: user_id
+              referencedTableName: users
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: rezervation
+            constraintName: fk_rezervation_person
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: person_id
+            referencedTableName: person
+        - addForeignKeyConstraint:
+            baseColumnNames: surgery_id
+            baseTableName: rezervation
+            constraintName: fk_rezervation_surgery
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: surgery_id
+            referencedTableName: surgery
+        - addForeignKeyConstraint:
+            baseColumnNames: contact_id
+            baseTableName: medical_facility
+            constraintName: fk_medicalFacility_contact
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: contact_id
+            referencedTableName: contact
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: medical_facility
+            constraintName: fk_medicalFacility_address
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: address_id
+            referencedTableName: address
+        - addForeignKeyConstraint:
+            baseColumnNames: patient_id
+            baseTableName: doctor_patient
+            constraintName: fk_doctorPatient_patient
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: patient_id
+            referencedTableName: patient
+        - addForeignKeyConstraint:
+            baseColumnNames: doctor_id
+            baseTableName: doctor_patient
+            constraintName: fk_doctorPatient_doctor
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: doctor_id
+            referencedTableName: doctor
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: contact_id
+            baseTableName: surgery
+            constraintName: fk_surgery_contact
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: contact_id
+            referencedTableName: contact
+#
+        - addForeignKeyConstraint:
+              baseColumnNames: medical_facility_id
+              baseTableName: surgery
+              constraintName: fk_surgery_medicFacility
+              onDelete: CASCADE
+              onUpdate: RESTRICT
+              referencedColumnNames: medical_facility_id
+              referencedTableName: medical_facility
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: surgery
+            constraintName: fk_surgery_address
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: address_id
+            referencedTableName: address
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: patient
+            constraintName: fk_patient_person
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: person_id
+            referencedTableName: person
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: doctor_id
+            baseTableName: patient
+            constraintName: fk_doctor_surgery
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: surgery_id
+            referencedTableName: surgery
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: surgery_id
+            baseTableName: doctor
+            constraintName: fk_doctor_surgery
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: surgery_id
+            referencedTableName: surgery
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: doctor
+            constraintName: fk_doctor_person
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: person_id
+            referencedTableName: person
+#
+        - addForeignKeyConstraint:
+            baseColumnNames: address_id
+            baseTableName: person
+            constraintName: fk_person_address
+            #        deferrable: true
+            #        initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: address_id
+            referencedTableName: address
+        - addForeignKeyConstraint:
+            baseColumnNames: name_id
+            baseTableName: person
+            constraintName: fk_person_name
+            #        deferrable: true
+            #        initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: name_id
+            referencedTableName: name
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: users
+            constraintName: fk_users_person
+            #        deferrable: true
+            #        initiallyDeferred: true
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: person_id
+            referencedTableName: person
+#
+  - changeSet:
+      id: 20190319202721
+      author: sironm
+      description: Foreign keys for doctor validation table
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: person_id
+            baseTableName: person_doctor_validation
+            constraintName: fk_personDoctorValid_person
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: person_id
+            referencedTableName: person
+        #
+        - addForeignKeyConstraint:
+            baseColumnNames: doctor_id
+            baseTableName: person_doctor_validation
+            constraintName: fk_personDoctorValid_doctor
+            onDelete: CASCADE
+            onUpdate: RESTRICT
+            referencedColumnNames: doctor_id
+            referencedTableName: doctor

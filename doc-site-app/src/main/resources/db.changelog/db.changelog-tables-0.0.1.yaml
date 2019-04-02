@@ -1,0 +1,444 @@
+databaseChangeLog:
+- changeSet:
+    id: 20190212204121
+    author: sironm
+    description: Database initiation
+    changes:
+    - createTable:
+        tableName: user_role
+        columns:
+        - column:
+            name: role_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: user_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: role
+        columns:
+        - column:
+            name: role_id
+            type: bigint
+            constraints:
+              primaryKey: true
+              autoIncrement: true
+        - column:
+            name: value
+            type: varchar(15)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: rezervation
+        columns:
+        - column:
+            name: rezervation_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: from
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: to
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: canceled_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: approved
+            type: boolean default false
+            constraints:
+                nullable: false
+        - column:
+            name: canceled
+            type: boolean default false
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: medical_facility
+        columns:
+        - column:
+            name: medical_facility_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: contact_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: doctor_patient
+        columns:
+        - column:
+            name: doctor_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: patient_id
+            type: bigint
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: contact
+        columns:
+        - column:
+            name: contact_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: phone_number
+            type: varchar(20)
+            constraints:
+              nullable: true
+        - column:
+            name: web_link
+            type: varchar(150)
+            constraints:
+              nullable: true
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: surgery
+        columns:
+        - column:
+            name: surgery_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: medical_facility_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: contact_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: surgery_description
+            type: varchar(300)
+            constraints:
+              nullable: true
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: patient
+        columns:
+        - column:
+            name: patient_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: doctor_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: doctor
+        columns:
+        - column:
+            name: doctor_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: surgery_id
+            type: bigint
+            constraints:
+              nullable: true
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: users
+        columns:
+        - column:
+            name: user_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: username
+            type: varchar(10)
+            constraints:
+              nullable: false
+        - column:
+            name: password
+            type: varchar(60)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: last_active
+            type: timestamp without time zone
+    - createTable:
+        tableName: address
+        columns:
+        - column:
+            name: address_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: street
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: city
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: psc
+            type: int
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: person
+        columns:
+        - column:
+            name: person_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: name_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: address_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+    - createTable:
+        tableName: name
+        columns:
+        - column:
+            name: name_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              nullable: false
+        - column:
+            name: first_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: last_name
+            type: varchar(255)
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+- changeSet:
+    id: 20190319200321
+    author: sironm
+    description: Doctor validation for user/pacient
+    changes:
+    - createTable:
+        tableName: person_doctor_validation
+        columns:
+        - column:
+            name: validation_id
+            type: bigint
+            autoIncrement: true
+            constraints:
+              primaryKey: true
+              autoIncrement: true
+        - column:
+            name: person_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: doctor_id
+            type: bigint
+            constraints:
+              nullable: false
+        - column:
+            name: validated
+            type: boolean
+            constraints:
+              nullable: false
+        - column:
+            name: created_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
+        - column:
+            name: modified_at
+            type: timestamp without time zone
+            constraints:
+              nullable: false
