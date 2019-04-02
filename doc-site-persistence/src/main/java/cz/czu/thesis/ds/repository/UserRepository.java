@@ -15,6 +15,8 @@ public interface UserRepository extends BaseRepository<User, Long> {
 
     Boolean existsByUsername(String username);
 
+    Boolean existsByEmail(String username);
+
     @Query("select username from User where person_id = :personId")
     String getPersonUsername(@Param("personId") Long personId);
 }

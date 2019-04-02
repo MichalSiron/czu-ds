@@ -25,6 +25,6 @@ server:
   servlet:
     context-path: /api
 # APP properties
-    app:
-      jwtSecret: JWTSuperSecretKey
-      jwtExpirationInMs: 604800000
+app:
+  jwtSecret: JWTSuperSecretKey
+  jwtExpirationInMs: 604800000

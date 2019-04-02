@@ -35,6 +35,10 @@ public class Person extends BaseEntity<Long> {
 
     Person(){}
 
+    public Person(Name name) {
+        this.name = name;
+    }
+
     public Person(Name name, Address address) {
         this.name = name;
         this.address = address;

@@ -23,6 +23,9 @@ public class User extends BaseEntity<Long> {
     @Column(name = "username", nullable = false)
     private String username;
 
+    @Column(name = "email", nullable = false)
+    private String email;
+
     @Column(name = "password", nullable = false)
     @JsonIgnore
     private String password;
@@ -44,11 +47,10 @@ public class User extends BaseEntity<Long> {
         //only for framework purpose//
     }
 
-    public User(Person person, String username, String password){
-        this.person = person;
+    public User(String username, String email){
         this.lastActive = LocalDateTime.now();
         this.username = username;
-        this.password = password;
+        this.email = email;
     }
 
     @Override
@@ -88,6 +90,14 @@ public class User extends BaseEntity<Long> {
         return person;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public void setPerson(Person person) {
         this.person = person;
     }
@@ -105,7 +115,7 @@ public class User extends BaseEntity<Long> {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
                 ", lastActive=" + lastActive +
                 '}';
     }

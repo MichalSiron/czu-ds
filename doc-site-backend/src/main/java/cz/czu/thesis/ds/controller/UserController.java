@@ -5,6 +5,7 @@ import cz.czu.thesis.ds.model.Doctor;
 import cz.czu.thesis.ds.model.PersonDoctorValidation;
 import cz.czu.thesis.ds.model.User;
 import cz.czu.thesis.ds.payload.DoctorResponse;
+import cz.czu.thesis.ds.payload.UserIdentityAvailability;
 import cz.czu.thesis.ds.payload.UserProfile;
 import cz.czu.thesis.ds.payload.UserSummary;
 import cz.czu.thesis.ds.repository.UserRepository;
@@ -59,6 +60,17 @@ public class UserController {
         else {
             return mapper(stream.filter(validation -> !validation.isValidated())).collect(Collectors.toList());
         }
+    }
+
+    @GetMapping("/user/checkUsernameAvailability")
+    public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username){
+        return new UserIdentityAvailability(!userRepository.existsByUsername(username));
+    }
+
+    @GetMapping("/user/checkEmailAvailability")
+    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email){
+        System.out.println(email);
+        return new UserIdentityAvailability(!userRepository.existsByEmail(email));
     }
 
     private Stream<DoctorResponse> mapper(Stream<PersonDoctorValidation> stream){

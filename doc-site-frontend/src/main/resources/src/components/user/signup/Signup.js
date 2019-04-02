@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 
 import './Signup.css';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, notification } from 'antd';
 import Link from "react-router-dom/es/Link";
 import {
-    EMAIL_MAX_LENGTH,
     NAME_MAX_LENGTH,
     NAME_MIN_LENGTH, PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH,
     USERNAME_MAX_LENGTH,
-    USERNAME_MIN_LENGTH
+    USERNAME_MIN_LENGTH,
+    EMAIL_MAX_LENGTH
 } from "../../../constants";
-import {checkEmailAvailability, checkUsernameAvailability} from "../../../util/APIUtils";
+import {checkEmailAvailability, checkUsernameAvailability, signup} from "../../../util/APIUtils";
 const FormItem = Form.Item;
 
 class Signup extends Component{
     state = {
-        name: {
+        firstName: {
+            value: ''
+        },
+        lastName: {
             value: ''
         },
         username: {
@@ -29,7 +32,7 @@ class Signup extends Component{
         }
     };
 
-    handleInputChange = (event, validationFun) => {
+    handleInputChange = (event, validation) => {
         const target = event.target;
         const inputName = target.name;
         const inputValue = target.value;
@@ -37,9 +40,65 @@ class Signup extends Component{
         this.setState({
             [inputName] : {
                 value: inputValue,
-                ...validationFun(inputValue)
+                ...validation(inputValue)
             }
         });
+    };
+
+    validateEmailAvailability = () => {
+        const emailValue = this.state.email.value;
+        const emailValidation = this.validateEmail(emailValue);
+
+        if (emailValidation.validateStatus === 'error'){
+            this.setState({
+                email: {
+                    value: emailValue,
+                    ...emailValidation
+                }
+            });
+            return;
+        }
+
+        this.setState({
+            email: {
+                value: emailValue,
+                validateStatus: 'validating',
+                errorMsg: null
+            }
+        });
+
+        checkEmailAvailability(emailValue).then(
+            response => {
+                if (response.data.available) {
+                    this.setState({
+                        email: {
+                            value: emailValue,
+                            validateStatus: 'success',
+                            errorMsg: null
+                        }
+                    })
+                }else {
+                    this.setState({
+                        email: {
+                            value: emailValue,
+                            validateStatus: 'error',
+                            errorMsg: 'Email is already taken by another user'
+                        }
+                    })
+                }
+            }
+        ).catch(
+            error => {
+                console.error(error);
+                this.setState({
+                    email: {
+                        value: emailValue,
+                        validationStatus: 'error',
+                        errorMsg: 'Server error occurred'
+                    }
+                })
+            }
+        )
     };
 
     validateUsernameAvailability = () => {
@@ -67,7 +126,7 @@ class Signup extends Component{
 
         checkUsernameAvailability(usernameValue)
             .then(response => {
-                if(response.available) {
+                if(response.data.available) {
                     this.setState({
                         username: {
                             value: usernameValue,
@@ -96,65 +155,12 @@ class Signup extends Component{
         });
     };
 
-    validateEmailAvailability = () => {
-        // First check for client side errors in email
-        const emailValue = this.state.email.value;
-        const emailValidation = this.validateEmail(emailValue);
-
-        if(emailValidation.validateStatus === 'error') {
-            this.setState({
-                email: {
-                    value: emailValue,
-                    ...emailValidation
-                }
-            });
-            return;
-        }
-
-        this.setState({
-            email: {
-                value: emailValue,
-                validateStatus: 'validating',
-                errorMsg: null
-            }
-        });
-
-        checkEmailAvailability(emailValue)
-            .then(response => {
-                if(response.available) {
-                    this.setState({
-                        email: {
-                            value: emailValue,
-                            validateStatus: 'success',
-                            errorMsg: null
-                        }
-                    });
-                } else {
-                    this.setState({
-                        email: {
-                            value: emailValue,
-                            validateStatus: 'error',
-                            errorMsg: 'This Email is already registered'
-                        }
-                    });
-                }
-            }).catch(error => {
-            // Marking validateStatus as success, Form will be recchecked at server
-            this.setState({
-                email: {
-                    value: emailValue,
-                    validateStatus: 'success',
-                    errorMsg: null
-                }
-            });
-        });
-    };
-
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
 
         const signupRequest = {
-            name: this.state.name.value,
+            firstName: this.state.firstName.value,
+            lastName: this.state.lastName.value,
             email: this.state.email.value,
             username: this.state.username.value,
             password: this.state.password.value
@@ -172,7 +178,7 @@ class Signup extends Component{
                 description: error.message || 'Something went wrong. Try again, please!'
             });
         });
-    }
+    };
 
     render() {
         return (
@@ -181,15 +187,27 @@ class Signup extends Component{
                 <div className="signup-content">
                     <Form onSubmit={this.handleSubmit} className="signup-form">
                         <FormItem
-                            label="Full Name"
-                            validateStatus={this.state.name.validateStatus}
-                            help={this.state.name.errorMsg}>
+                            label="First Name"
+                            validateStatus={this.state.firstName.validateStatus}
+                            help={this.state.firstName.errorMsg}>
                             <Input
                                 size="large"
-                                name="name"
+                                name="firstName"
                                 autoComplete="off"
-                                placeholder="Your full name"
-                                value={this.state.name.value}
+                                placeholder="First name"
+                                value={this.state.firstName.value}
+                                onChange={(event) => this.handleInputChange(event, this.validateName)} />
+                        </FormItem>
+                        <FormItem
+                            label="Last Name"
+                            validateStatus={this.state.lastName.validateStatus}
+                            help={this.state.lastName.errorMsg}>
+                            <Input
+                                size="large"
+                                name="lastName"
+                                autoComplete="off"
+                                placeholder="Last name"
+                                value={this.state.lastName.value}
                                 onChange={(event) => this.handleInputChange(event, this.validateName)} />
                         </FormItem>
                         <FormItem label="Username"
@@ -248,11 +266,41 @@ class Signup extends Component{
     }
 
     isFormInvalid = () => {
-        return !(this.state.name.validateStatus === 'success' &&
+        return !(this.state.firstName.validateStatus === 'success' &&
+                this.state.lastName.validateStatus === 'success' &&
             this.state.username.validateStatus === 'success' &&
             this.state.email.validateStatus === 'success' &&
             this.state.password.validateStatus === 'success'
         );
+    };
+
+    validateEmail = (email) => {
+        if(!email) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email may not be empty'
+            }
+        }
+
+        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
+        if(!EMAIL_REGEX.test(email)) {
+            return {
+                validateStatus: 'error',
+                errorMsg: 'Email not valid'
+            }
+        }
+
+        if(email.length > EMAIL_MAX_LENGTH) {
+            return {
+                validateStatus: 'error',
+                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
+            }
+        }
+
+        return {
+            validateStatus: null,
+            errorMsg: null
+        }
     };
 
     validateName = (name) => {
@@ -309,35 +357,6 @@ class Signup extends Component{
                 validateStatus: 'success',
                 errorMsg: null,
             };
-        }
-    }
-
-    validateEmail = (email) => {
-        if(!email) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email may not be empty'
-            }
-        }
-
-        const EMAIL_REGEX = RegExp('[^@ ]+@[^@ ]+\\.[^@ ]+');
-        if(!EMAIL_REGEX.test(email)) {
-            return {
-                validateStatus: 'error',
-                errorMsg: 'Email not valid'
-            }
-        }
-
-        if(email.length > EMAIL_MAX_LENGTH) {
-            return {
-                validateStatus: 'error',
-                errorMsg: `Email is too long (Maximum ${EMAIL_MAX_LENGTH} characters allowed)`
-            }
-        }
-
-        return {
-            validateStatus: null,
-            errorMsg: null
         }
     };
 
