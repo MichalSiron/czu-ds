@@ -67,6 +67,12 @@ public class UserController {
         return new UserIdentityAvailability(!userRepository.existsByUsername(username));
     }
 
+    @GetMapping("/user/checkEmailAvailability")
+    public UserIdentityAvailability checkEmailAvailability(@RequestParam(value = "email") String email){
+        System.out.println(email);
+        return new UserIdentityAvailability(!userRepository.existsByEmail(email));
+    }
+
     private Stream<DoctorResponse> mapper(Stream<PersonDoctorValidation> stream){
         return stream.map(validation -> {
             final Doctor doctor = validation.getDoctor();

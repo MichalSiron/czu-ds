@@ -121,6 +121,9 @@ databaseChangeLog:
                 name: person_id
                 value: 1
             - column:
+                name: email
+                value: michal.siron@centrum.cz
+            - column:
                 name: username
                 value: sironm
             - column:

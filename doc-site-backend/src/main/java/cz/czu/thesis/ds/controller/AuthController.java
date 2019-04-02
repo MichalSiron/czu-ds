@@ -70,19 +70,15 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
         System.out.println(signUpRequest);
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(new ApiResponse(false, "Username is already taken!"), HttpStatus.BAD_REQUEST);
         }
 
-        Person person = new Person(new Name("Anetka", "Nejmilovanejsi Cvrcek"), new Address("Makedonska REST", "Praha", 14000));
-
-
-        User user = new User(person, signUpRequest.getUsername(), signUpRequest.getPassword());
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User(signUpRequest.getUsername(), signUpRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
+        user.setPerson(new Person(new Name(signUpRequest.getFirstName(), signUpRequest.getLastName())));
 
         Role userRole = roleRepository.findByName(RoleName.ROLE_PATIENT)
-                .orElseThrow(() -> new AppException("User Role not set."));
+                .orElseThrow(() -> new AppException("User Role not found."));
 
         user.setRoles(Collections.singleton(userRole));
 

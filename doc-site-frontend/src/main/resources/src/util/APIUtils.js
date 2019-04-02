@@ -20,21 +20,22 @@ const request = (options) => {
 
 export function checkUsernameAvailability(username) {
     return request({
-        url: "/user/checkUsernameAvailability?username=" + username,
+        url: '/user/checkUsernameAvailability?username=' + username,
         method: 'GET'
     });
 }
 
 export function checkEmailAvailability(email) {
+    console.log(email);
     return request({
-        url: "/user/checkEmailAvailability?email=" + email,
+        url: '/user/checkEmailAvailability?email=' + email,
         method: 'GET'
     });
 }
 
 export function getAllDoctors() {
     return request({
-        url: "/doctors",
+        url: '/doctors',
         method: 'GET'
     });
 }
@@ -45,7 +46,7 @@ export function getCurrentUser() {
     }
 
     return request({
-        url: "/user/me",
+        url: '/user/me',
         method: 'GET'
     });
 }
@@ -56,22 +57,31 @@ export function getValidatedDoctorsForProfile(username, validated) {
     }
 
     return request({
-        url: "/users/"+username+"/doctors?valid="+validated,
+        url: '/users/'+username+'/doctors?valid='+validated,
         method: 'GET'
     });
 }
 
 export function getUserProfile(username) {
     return request({
-        url: "/users/" + username,
+        url: '/users/' + username,
         method: 'GET'
     });
 }
 
 export function login(loginRequest) {
     return request({
-        url: "/auth/signin",
+        url: '/auth/signin',
         method: 'POST',
         data: loginRequest
     });
+}
+
+export function signup(signupRequest) {
+    return request({
+        url: '/auth/signup',
+        method: 'POST',
+        data: signupRequest
+    })
+
 }
